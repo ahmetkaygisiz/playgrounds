@@ -1,4 +1,5 @@
+**/.env
+
 activemq-cluster/.vagrant
 activemq-cluster/files/apache-activemq-5.16.7
 activemq-cluster/files/apache-activemq-5.16.7-bin.tar.gz
-
