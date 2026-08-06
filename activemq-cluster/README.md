@@ -118,14 +118,13 @@ vagrant ssh broker1 -- sudo tee /opt/activemq/conf/activemq.xml < provision/acti
 vagrant ssh broker1 -- sudo systemctl restart activemq
 ```
 
-
 ## Test Cases
 
 export JAVA_HOME="/mnt/c/Ake/Apps/java/current"
 export CLASSPATH=""/mnt/c/Ake/workspace/activemq/activemq-cluster/files/apache-activemq-5.16.7/activemq-all-5.16.7.jar":."
 
 **produce message**
-
+```bash
 $JAVA_HOME/bin/java Producer tcp://192.168.56.11:8616 TEST.QUEUE 100 1000
 
 === ActiveMQ Producer ===
@@ -142,6 +141,7 @@ Delay     : 1000 ms
 -------
 
 **consume message**
+```bash
 $JAVA_HOME/bin/java Consumer tcp://192.168.56.11:8616 TEST.QUEUE 100 50
 
 $JAVA_HOME/bin/java Consumer tcp://192.168.56.11:8616 TEST.QUEUE 100 50
