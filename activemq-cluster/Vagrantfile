@@ -1,0 +1,57 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BROKERS = [
+  { name: "broker1", ip: "192.168.56.11" },
+  { name: "broker2", ip: "192.168.56.12" },
+  { name: "broker3", ip: "192.168.56.13" },
+]
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.box_check_update = false
+
+  BROKERS.each do |broker|
+    config.vm.define broker[:name] do |node|
+      node.vm.hostname = broker[:name]
+      node.vm.network "private_network", ip: broker[:ip]
+
+      node.vm.provider "virtualbox" do |vb|
+        vb.name   = broker[:name]
+        vb.memory = 1024
+        vb.cpus   = 1
+      end
+
+      # Binary
+      node.vm.provision "file",
+        source:      "files/apache-activemq-5.16.7-bin.tar.gz",
+        destination: "/tmp/apache-activemq-5.16.7-bin.tar.gz"
+
+      # Her node'a tüm config dosyalarını kopyala
+      # install.sh node numarasına göre doğrusunu seçer
+      node.vm.provision "file",
+        source:      "files/activemq-node1.xml",
+        destination: "/tmp/activemq-node1.xml"
+
+      node.vm.provision "file",
+        source:      "files/activemq-node2.xml",
+        destination: "/tmp/activemq-node2.xml"
+
+      node.vm.provision "file",
+        source:      "files/activemq-node3.xml",
+        destination: "/tmp/activemq-node3.xml"
+
+      node.vm.provision "file",
+        source:      "files/jetty.xml",
+        destination: "/tmp/jetty.xml"
+
+      # Kurulum scripti
+      node.vm.provision "shell",
+        path: "provision/install.sh",
+        env: {
+          "BROKER_NAME" => broker[:name],
+          "BROKER_IP"   => broker[:ip],
+        }
+    end
+  end
+end

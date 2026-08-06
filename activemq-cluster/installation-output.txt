@@ -1,0 +1,1018 @@
+Bringing machine 'broker1' up with 'virtualbox' provider...
+Bringing machine 'broker2' up with 'virtualbox' provider...
+Bringing machine 'broker3' up with 'virtualbox' provider...
+==> broker1: Importing base box 'ubuntu/jammy64'...
+==> broker1: Matching MAC address for NAT networking...
+==> broker1: Setting the name of the VM: broker1
+==> broker1: Clearing any previously set network interfaces...
+==> broker1: Preparing network interfaces based on configuration...
+    broker1: Adapter 1: nat
+    broker1: Adapter 2: hostonly
+==> broker1: Forwarding ports...
+    broker1: 22 (guest) => 2222 (host) (adapter 1)
+==> broker1: Running 'pre-boot' VM customizations...
+==> broker1: Booting VM...
+==> broker1: Waiting for machine to boot. This may take a few minutes...
+    broker1: SSH address: 127.0.0.1:2222
+    broker1: SSH username: vagrant
+    broker1: SSH auth method: private key
+    broker1: Warning: Connection reset. Retrying...
+    broker1:
+    broker1: Vagrant insecure key detected. Vagrant will automatically replace
+    broker1: this with a newly generated keypair for better security.
+    broker1:
+    broker1: Inserting generated public key within guest...
+    broker1: Removing insecure key from the guest if it's present...
+    broker1: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> broker1: Machine booted and ready!
+==> broker1: Checking for guest additions in VM...
+    broker1: The guest additions on this VM do not match the installed version of
+    broker1: VirtualBox! In most cases this is fine, but in rare cases it can
+    broker1: prevent things such as shared folders from working properly. If you see
+    broker1: shared folder errors, please make sure the guest additions within the
+    broker1: virtual machine match the version of VirtualBox you have installed on
+    broker1: your host and reload your VM.
+    broker1:
+    broker1: Guest Additions Version: 6.0.0 r127566
+    broker1: VirtualBox Version: 7.2
+==> broker1: Setting hostname...
+==> broker1: Configuring and enabling network interfaces...
+==> broker1: Mounting shared folders...
+    broker1: C:/Ake/workspace/activemq/activemq-cluster => /vagrant
+==> broker1: Running provisioner: file...
+    broker1: files/apache-activemq-5.16.7-bin.tar.gz => /tmp/apache-activemq-5.16.7-bin.tar.gz
+==> broker1: Running provisioner: file...
+    broker1: files/activemq-node1.xml => /tmp/activemq-node1.xml
+==> broker1: Running provisioner: file...
+    broker1: files/activemq-node2.xml => /tmp/activemq-node2.xml
+==> broker1: Running provisioner: file...
+    broker1: files/activemq-node3.xml => /tmp/activemq-node3.xml
+==> broker1: Running provisioner: file...
+    broker1: files/jetty.xml => /tmp/jetty.xml
+==> broker1: Running provisioner: shell...
+    broker1: Running: C:/Users/PC/AppData/Local/Temp/vagrant-shell20260803-5760-tt26ug.sh
+    broker1: >>> [broker1] Installing...
+    broker1: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    broker1: Selecting previously unselected package alsa-topology-conf.
+(Reading database ... 64341 files and directories currently installed.)
+    broker1: Preparing to unpack .../00-alsa-topology-conf_1.2.5.1-2_all.deb ...
+    broker1: Unpacking alsa-topology-conf (1.2.5.1-2) ...
+    broker1: Selecting previously unselected package libasound2-data.
+    broker1: Preparing to unpack .../01-libasound2-data_1.2.6.1-1ubuntu1.2_all.deb ...
+    broker1: Unpacking libasound2-data (1.2.6.1-1ubuntu1.2) ...
+    broker1: Selecting previously unselected package libasound2:amd64.
+    broker1: Preparing to unpack .../02-libasound2_1.2.6.1-1ubuntu1.2_amd64.deb ...
+    broker1: Unpacking libasound2:amd64 (1.2.6.1-1ubuntu1.2) ...
+    broker1: Selecting previously unselected package alsa-ucm-conf.
+    broker1: Preparing to unpack .../03-alsa-ucm-conf_1.2.6.3-1ubuntu1.12_all.deb ...
+    broker1: Unpacking alsa-ucm-conf (1.2.6.3-1ubuntu1.12) ...
+    broker1: Selecting previously unselected package java-common.
+    broker1: Preparing to unpack .../04-java-common_0.72build2_all.deb ...
+    broker1: Unpacking java-common (0.72build2) ...
+    broker1: Selecting previously unselected package libavahi-common-data:amd64.
+    broker1: Preparing to unpack .../05-libavahi-common-data_0.8-5ubuntu5.5_amd64.deb ...
+    broker1: Unpacking libavahi-common-data:amd64 (0.8-5ubuntu5.5) ...
+    broker1: Selecting previously unselected package libavahi-common3:amd64.
+    broker1: Preparing to unpack .../06-libavahi-common3_0.8-5ubuntu5.5_amd64.deb ...
+    broker1: Unpacking libavahi-common3:amd64 (0.8-5ubuntu5.5) ...
+    broker1: Selecting previously unselected package libavahi-client3:amd64.
+    broker1: Preparing to unpack .../07-libavahi-client3_0.8-5ubuntu5.5_amd64.deb ...
+    broker1: Unpacking libavahi-client3:amd64 (0.8-5ubuntu5.5) ...
+    broker1: Selecting previously unselected package libcups2:amd64.
+    broker1: Preparing to unpack .../08-libcups2_2.4.1op1-1ubuntu4.21_amd64.deb ...
+    broker1: Unpacking libcups2:amd64 (2.4.1op1-1ubuntu4.21) ...
+    broker1: Selecting previously unselected package fonts-dejavu-core.
+    broker1: Preparing to unpack .../09-fonts-dejavu-core_2.37-2build1_all.deb ...
+    broker1: Unpacking fonts-dejavu-core (2.37-2build1) ...
+    broker1: Selecting previously unselected package fontconfig-config.
+    broker1: Preparing to unpack .../10-fontconfig-config_2.13.1-4.2ubuntu5_all.deb ...
+    broker1: Unpacking fontconfig-config (2.13.1-4.2ubuntu5) ...
+    broker1: Selecting previously unselected package libfontconfig1:amd64.
+    broker1: Preparing to unpack .../11-libfontconfig1_2.13.1-4.2ubuntu5_amd64.deb ...
+    broker1: Unpacking libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+    broker1: Selecting previously unselected package liblcms2-2:amd64.
+    broker1: Preparing to unpack .../12-liblcms2-2_2.12~rc1-2ubuntu0.1_amd64.deb ...
+    broker1: Unpacking liblcms2-2:amd64 (2.12~rc1-2ubuntu0.1) ...
+    broker1: Selecting previously unselected package libjpeg-turbo8:amd64.
+    broker1: Preparing to unpack .../13-libjpeg-turbo8_2.1.2-0ubuntu1_amd64.deb ...
+    broker1: Unpacking libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+    broker1: Selecting previously unselected package libjpeg8:amd64.
+    broker1: Preparing to unpack .../14-libjpeg8_8c-2ubuntu10_amd64.deb ...
+    broker1: Unpacking libjpeg8:amd64 (8c-2ubuntu10) ...
+    broker1: Selecting previously unselected package libgraphite2-3:amd64.
+    broker1: Preparing to unpack .../15-libgraphite2-3_1.3.14-1ubuntu0.1_amd64.deb ...
+    broker1: Unpacking libgraphite2-3:amd64 (1.3.14-1ubuntu0.1) ...
+    broker1: Selecting previously unselected package libharfbuzz0b:amd64.
+    broker1: Preparing to unpack .../16-libharfbuzz0b_2.7.4-1ubuntu3.2_amd64.deb ...
+    broker1: Unpacking libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+    broker1: Selecting previously unselected package libpcsclite1:amd64.
+    broker1: Preparing to unpack .../17-libpcsclite1_1.9.5-3ubuntu1_amd64.deb ...
+    broker1: Unpacking libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+    broker1: Selecting previously unselected package openjdk-17-jre-headless:amd64.
+    broker1: Preparing to unpack .../18-openjdk-17-jre-headless_17.0.19+10-1~22.04.2_amd64.deb ...
+    broker1: Unpacking openjdk-17-jre-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker1: Selecting previously unselected package ca-certificates-java.
+    broker1: Preparing to unpack .../19-ca-certificates-java_20190909ubuntu1.3_all.deb ...
+    broker1: Unpacking ca-certificates-java (20190909ubuntu1.3) ...
+    broker1: Selecting previously unselected package openjdk-17-jdk-headless:amd64.
+    broker1: Preparing to unpack .../20-openjdk-17-jdk-headless_17.0.19+10-1~22.04.2_amd64.deb ...
+    broker1: Unpacking openjdk-17-jdk-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker1: Setting up libgraphite2-3:amd64 (1.3.14-1ubuntu0.1) ...
+    broker1: Setting up liblcms2-2:amd64 (2.12~rc1-2ubuntu0.1) ...
+    broker1: Setting up java-common (0.72build2) ...
+    broker1: Setting up libasound2-data (1.2.6.1-1ubuntu1.2) ...
+    broker1: Setting up libavahi-common-data:amd64 (0.8-5ubuntu5.5) ...
+    broker1: Setting up fonts-dejavu-core (2.37-2build1) ...
+    broker1: Setting up libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+    broker1: Setting up libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+    broker1: Setting up alsa-topology-conf (1.2.5.1-2) ...
+    broker1: Setting up libasound2:amd64 (1.2.6.1-1ubuntu1.2) ...
+    broker1: Setting up libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+    broker1: Setting up libjpeg8:amd64 (8c-2ubuntu10) ...
+    broker1: Setting up alsa-ucm-conf (1.2.6.3-1ubuntu1.12) ...
+    broker1: Setting up fontconfig-config (2.13.1-4.2ubuntu5) ...
+    broker1: Setting up libavahi-common3:amd64 (0.8-5ubuntu5.5) ...
+    broker1: Setting up libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+    broker1: Setting up libavahi-client3:amd64 (0.8-5ubuntu5.5) ...
+    broker1: Setting up libcups2:amd64 (2.4.1op1-1ubuntu4.21) ...
+    broker1: Setting up openjdk-17-jre-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/java to provide /usr/bin/java (java) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jpackage to provide /usr/bin/jpackage (jpackage) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/keytool to provide /usr/bin/keytool (keytool) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/rmiregistry to provide /usr/bin/rmiregistry (rmiregistry) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/lib/jexec to provide /usr/bin/jexec (jexec) in auto mode
+    broker1: Setting up ca-certificates-java (20190909ubuntu1.3) ...
+    broker1: head: cannot open '/etc/ssl/certs/java/cacerts' for reading: No such file or directory
+    broker1: Adding debian:DigiCert_TLS_RSA4096_Root_G5.pem
+    broker1: Adding debian:IdenTrust_Commercial_Root_CA_1.pem
+    broker1: Adding debian:SSL.com_TLS_ECC_Root_CA_2022.pem
+    broker1: Adding debian:emSign_Root_CA_-_C1.pem
+    broker1: Adding debian:Trustwave_Global_ECC_P384_Certification_Authority.pem
+    broker1: Adding debian:DigiCert_Assured_ID_Root_G2.pem
+    broker1: Adding debian:Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+    broker1: Adding debian:GlobalSign_Root_R46.pem
+    broker1: Adding debian:Microsoft_ECC_Root_Certificate_Authority_2017.pem
+    broker1: Adding debian:Certigna.pem
+    broker1: Adding debian:Certum_Trusted_Network_CA.pem
+    broker1: Adding debian:Go_Daddy_Root_Certificate_Authority_-_G2.pem
+    broker1: Adding debian:TunTrust_Root_CA.pem
+    broker1: Adding debian:BJCA_Global_Root_CA2.pem
+    broker1: Adding debian:Izenpe.com.pem
+    broker1: Adding debian:Starfield_Class_2_CA.pem
+    broker1: Adding debian:AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+    broker1: Adding debian:XRamp_Global_CA_Root.pem
+    broker1: Adding debian:Entrust_Root_Certification_Authority_-_EC1.pem
+    broker1: Adding debian:D-TRUST_BR_Root_CA_1_2020.pem
+    broker1: Adding debian:Security_Communication_RootCA2.pem
+    broker1: Adding debian:HiPKI_Root_CA_-_G1.pem
+    broker1: Adding debian:GDCA_TrustAUTH_R5_ROOT.pem
+    broker1: Adding debian:Atos_TrustedRoot_2011.pem
+    broker1: Adding debian:Security_Communication_Root_CA.pem
+    broker1: Adding debian:SSL.com_Root_Certification_Authority_ECC.pem
+    broker1: Adding debian:DigiCert_High_Assurance_EV_Root_CA.pem
+    broker1: Adding debian:certSIGN_Root_CA_G2.pem
+    broker1: Adding debian:TWCA_Global_Root_CA.pem
+    broker1: Adding debian:SSL.com_EV_Root_Certification_Authority_ECC.pem
+    broker1: Adding debian:Telia_Root_CA_v2.pem
+    broker1: Adding debian:CommScope_Public_Trust_RSA_Root-01.pem
+    broker1: Adding debian:AC_RAIZ_FNMT-RCM.pem
+    broker1: Adding debian:e-Szigno_Root_CA_2017.pem
+    broker1: Adding debian:QuoVadis_Root_CA_3.pem
+    broker1: Adding debian:Starfield_Root_Certificate_Authority_-_G2.pem
+    broker1: Adding debian:emSign_ECC_Root_CA_-_G3.pem
+    broker1: Adding debian:OISTE_WISeKey_Global_Root_GC_CA.pem
+    broker1: Adding debian:Security_Communication_ECC_RootCA1.pem
+    broker1: Adding debian:TeliaSonera_Root_CA_v1.pem
+    broker1: Adding debian:DigiCert_Global_Root_G2.pem
+    broker1: Adding debian:QuoVadis_Root_CA_2_G3.pem
+    broker1: Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+    broker1: Adding debian:AffirmTrust_Premium.pem
+    broker1: Adding debian:SZAFIR_ROOT_CA2.pem
+    broker1: Adding debian:DigiCert_Assured_ID_Root_CA.pem
+    broker1: Adding debian:Microsoft_RSA_Root_Certificate_Authority_2017.pem
+    broker1: Adding debian:NAVER_Global_Root_Certification_Authority.pem
+    broker1: Adding debian:AffirmTrust_Commercial.pem
+    broker1: Adding debian:Amazon_Root_CA_4.pem
+    broker1: Adding debian:CFCA_EV_ROOT.pem
+    broker1: Adding debian:Go_Daddy_Class_2_CA.pem
+    broker1: Adding debian:Entrust_Root_Certification_Authority_-_G2.pem
+    broker1: Adding debian:Starfield_Services_Root_Certificate_Authority_-_G2.pem
+    broker1: Adding debian:COMODO_ECC_Certification_Authority.pem
+    broker1: Adding debian:Certainly_Root_E1.pem
+    broker1: Adding debian:certSIGN_ROOT_CA.pem
+    broker1: Adding debian:Secure_Global_CA.pem
+    broker1: Adding debian:GlobalSign_Root_E46.pem
+    broker1: Adding debian:GlobalSign_Root_CA_-_R6.pem
+    broker1: Adding debian:NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+    broker1: Adding debian:Amazon_Root_CA_2.pem
+    broker1: Adding debian:AffirmTrust_Premium_ECC.pem
+    broker1: Adding debian:Certum_Trusted_Root_CA.pem
+    broker1: Adding debian:UCA_Extended_Validation_Root.pem
+    broker1: Adding debian:GlobalSign_Root_CA_-_R3.pem
+    broker1: Adding debian:USERTrust_ECC_Certification_Authority.pem
+    broker1: Adding debian:Baltimore_CyberTrust_Root.pem
+    broker1: Adding debian:ISRG_Root_X1.pem
+    broker1: Adding debian:DigiCert_Trusted_Root_G4.pem
+    broker1: Adding debian:T-TeleSec_GlobalRoot_Class_2.pem
+    broker1: Adding debian:SwissSign_Gold_CA_-_G2.pem
+    broker1: Adding debian:ACCVRAIZ1.pem
+    broker1: Adding debian:emSign_ECC_Root_CA_-_C3.pem
+    broker1: Adding debian:emSign_Root_CA_-_G1.pem
+    broker1: Adding debian:Comodo_AAA_Services_root.pem
+    broker1: Adding debian:QuoVadis_Root_CA_1_G3.pem
+    broker1: Adding debian:QuoVadis_Root_CA_3_G3.pem
+    broker1: Adding debian:Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+    broker1: Adding debian:Sectigo_Public_Server_Authentication_Root_E46.pem
+    broker1: Adding debian:GlobalSign_ECC_Root_CA_-_R4.pem
+    broker1: Adding debian:CA_Disig_Root_R2.pem
+    broker1: Adding debian:Buypass_Class_3_Root_CA.pem
+    broker1: Adding debian:Trustwave_Global_Certification_Authority.pem
+    broker1: Adding debian:TrustAsia_Global_Root_CA_G3.pem
+    broker1: Adding debian:SwissSign_Silver_CA_-_G2.pem
+    broker1: Adding debian:Entrust_Root_Certification_Authority_-_G4.pem
+    broker1: Adding debian:Amazon_Root_CA_1.pem
+    broker1: Adding debian:SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+    broker1: Adding debian:Actalis_Authentication_Root_CA.pem
+    broker1: Adding debian:OISTE_WISeKey_Global_Root_GB_CA.pem
+    broker1: Adding debian:SecureTrust_CA.pem
+    broker1: Adding debian:CommScope_Public_Trust_ECC_Root-02.pem
+    broker1: Adding debian:vTrus_Root_CA.pem
+    broker1: Adding debian:UCA_Global_G2_Root.pem
+    broker1: Adding debian:CommScope_Public_Trust_RSA_Root-02.pem
+    broker1: Adding debian:GTS_Root_R3.pem
+    broker1: Adding debian:DigiCert_Global_Root_CA.pem
+    broker1: Adding debian:Entrust.net_Premium_2048_Secure_Server_CA.pem
+    broker1: Adding debian:BJCA_Global_Root_CA1.pem
+    broker1: Adding debian:DigiCert_Assured_ID_Root_G3.pem
+    broker1: Adding debian:Certum_Trusted_Network_CA_2.pem
+    broker1: Adding debian:Certainly_Root_R1.pem
+    broker1: Adding debian:Security_Communication_RootCA3.pem
+    broker1: Adding debian:SecureSign_RootCA11.pem
+    broker1: Adding debian:vTrus_ECC_Root_CA.pem
+    broker1: Adding debian:GTS_Root_R1.pem
+    broker1: Adding debian:Microsec_e-Szigno_Root_CA_2009.pem
+    broker1: Adding debian:Amazon_Root_CA_3.pem
+    broker1: Adding debian:CommScope_Public_Trust_ECC_Root-01.pem
+    broker1: Adding debian:Buypass_Class_2_Root_CA.pem
+    broker1: Adding debian:GLOBALTRUST_2020.pem
+    broker1: Adding debian:DigiCert_Global_Root_G3.pem
+    broker1: Adding debian:AffirmTrust_Networking.pem
+    broker1: Adding debian:Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+    broker1: Adding debian:TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+    broker1: Adding debian:Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+    broker1: Adding debian:ANF_Secure_Server_Root_CA.pem
+    broker1: Adding debian:T-TeleSec_GlobalRoot_Class_3.pem
+    broker1: Adding debian:D-TRUST_EV_Root_CA_1_2020.pem
+    broker1: Adding debian:Sectigo_Public_Server_Authentication_Root_R46.pem
+    broker1: Adding debian:GTS_Root_R4.pem
+    broker1: Adding debian:Certigna_Root_CA.pem
+    broker1: Adding debian:DigiCert_TLS_ECC_P384_Root_G5.pem
+    broker1: Adding debian:GlobalSign_Root_CA.pem
+    broker1: Adding debian:TrustAsia_Global_Root_CA_G4.pem
+    broker1: Adding debian:ePKI_Root_Certification_Authority.pem
+    broker1: Adding debian:GTS_Root_R2.pem
+    broker1: Adding debian:GlobalSign_ECC_Root_CA_-_R5.pem
+    broker1: Adding debian:Certum_EC-384_CA.pem
+    broker1: Adding debian:Hongkong_Post_Root_CA_3.pem
+    broker1: Adding debian:D-TRUST_Root_Class_3_CA_2_2009.pem
+    broker1: Adding debian:Trustwave_Global_ECC_P256_Certification_Authority.pem
+    broker1: Adding debian:USERTrust_RSA_Certification_Authority.pem
+    broker1: Adding debian:Entrust_Root_Certification_Authority.pem
+    broker1: Adding debian:SSL.com_TLS_RSA_Root_CA_2022.pem
+    broker1: Adding debian:SSL.com_Root_Certification_Authority_RSA.pem
+    broker1: Adding debian:HARICA_TLS_ECC_Root_CA_2021.pem
+    broker1: Adding debian:HARICA_TLS_RSA_Root_CA_2021.pem
+    broker1: Adding debian:TWCA_Root_Certification_Authority.pem
+    broker1: Adding debian:ISRG_Root_X2.pem
+    broker1: Adding debian:QuoVadis_Root_CA_2.pem
+    broker1: Adding debian:IdenTrust_Public_Sector_Root_CA_1.pem
+    broker1: Adding debian:COMODO_RSA_Certification_Authority.pem
+    broker1: Adding debian:COMODO_Certification_Authority.pem
+    broker1: Adding debian:D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+    broker1: done.
+    broker1: Setting up openjdk-17-jdk-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jar to provide /usr/bin/jar (jar) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jarsigner to provide /usr/bin/jarsigner (jarsigner) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javac to provide /usr/bin/javac (javac) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javadoc to provide /usr/bin/javadoc (javadoc) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javap to provide /usr/bin/javap (javap) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jcmd to provide /usr/bin/jcmd (jcmd) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdb to provide /usr/bin/jdb (jdb) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdeprscan to provide /usr/bin/jdeprscan (jdeprscan) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdeps to provide /usr/bin/jdeps (jdeps) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jfr to provide /usr/bin/jfr (jfr) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jimage to provide /usr/bin/jimage (jimage) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jinfo to provide /usr/bin/jinfo (jinfo) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jlink to provide /usr/bin/jlink (jlink) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jmap to provide /usr/bin/jmap (jmap) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jmod to provide /usr/bin/jmod (jmod) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jps to provide /usr/bin/jps (jps) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jrunscript to provide /usr/bin/jrunscript (jrunscript) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jshell to provide /usr/bin/jshell (jshell) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstack to provide /usr/bin/jstack (jstack) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstat to provide /usr/bin/jstat (jstat) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstatd to provide /usr/bin/jstatd (jstatd) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/serialver to provide /usr/bin/serialver (serialver) in auto mode
+    broker1: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jhsdb to provide /usr/bin/jhsdb (jhsdb) in auto mode
+    broker1: Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+    broker1: Processing triggers for man-db (2.10.2-1) ...
+    broker1: Processing triggers for ca-certificates (20240203~22.04.1) ...
+    broker1: Updating certificates in /etc/ssl/certs...
+    broker1: 0 added, 0 removed; done.
+    broker1: Running hooks in /etc/ca-certificates/update.d...
+    broker1:
+    broker1: done.
+    broker1: done.
+    broker1:
+    broker1: Running kernel seems to be up-to-date.
+    broker1:
+    broker1: No services need to be restarted.
+    broker1:
+    broker1: No containers need to be restarted.
+    broker1:
+    broker1: No user sessions are running outdated binaries.
+    broker1:
+    broker1: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    broker1: >>> Binary extracting
+    broker1: Created symlink /etc/systemd/system/multi-user.target.wants/activemq.service → /etc/systemd/system/activemq.service.
+    broker1: >>> [broker1] Activemq is working!
+    broker1:     Web Konsol : http://192.168.56.11:8161/admin  (admin/admin)
+    broker1:     OpenWire   : tcp://192.168.56.11:8616
+==> broker2: Importing base box 'ubuntu/jammy64'...
+==> broker2: Matching MAC address for NAT networking...
+==> broker2: Setting the name of the VM: broker2
+==> broker2: Fixed port collision for 22 => 2222. Now on port 2200.
+==> broker2: Clearing any previously set network interfaces...
+==> broker2: Preparing network interfaces based on configuration...
+    broker2: Adapter 1: nat
+    broker2: Adapter 2: hostonly
+==> broker2: Forwarding ports...
+    broker2: 22 (guest) => 2200 (host) (adapter 1)
+==> broker2: Running 'pre-boot' VM customizations...
+==> broker2: Booting VM...
+==> broker2: Waiting for machine to boot. This may take a few minutes...
+    broker2: SSH address: 127.0.0.1:2200
+    broker2: SSH username: vagrant
+    broker2: SSH auth method: private key
+    broker2: Warning: Connection reset. Retrying...
+    broker2: Warning: Connection aborted. Retrying...
+    broker2:
+    broker2: Vagrant insecure key detected. Vagrant will automatically replace
+    broker2: this with a newly generated keypair for better security.
+    broker2:
+    broker2: Inserting generated public key within guest...
+    broker2: Removing insecure key from the guest if it's present...
+    broker2: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> broker2: Machine booted and ready!
+==> broker2: Checking for guest additions in VM...
+    broker2: The guest additions on this VM do not match the installed version of
+    broker2: VirtualBox! In most cases this is fine, but in rare cases it can
+    broker2: prevent things such as shared folders from working properly. If you see
+    broker2: shared folder errors, please make sure the guest additions within the
+    broker2: virtual machine match the version of VirtualBox you have installed on
+    broker2: your host and reload your VM.
+    broker2:
+    broker2: Guest Additions Version: 6.0.0 r127566
+    broker2: VirtualBox Version: 7.2
+==> broker2: Setting hostname...
+==> broker2: Configuring and enabling network interfaces...
+==> broker2: Mounting shared folders...
+    broker2: C:/Ake/workspace/activemq/activemq-cluster => /vagrant
+==> broker2: Running provisioner: file...
+    broker2: files/apache-activemq-5.16.7-bin.tar.gz => /tmp/apache-activemq-5.16.7-bin.tar.gz
+==> broker2: Running provisioner: file...
+    broker2: files/activemq-node1.xml => /tmp/activemq-node1.xml
+==> broker2: Running provisioner: file...
+    broker2: files/activemq-node2.xml => /tmp/activemq-node2.xml
+==> broker2: Running provisioner: file...
+    broker2: files/activemq-node3.xml => /tmp/activemq-node3.xml
+==> broker2: Running provisioner: file...
+    broker2: files/jetty.xml => /tmp/jetty.xml
+==> broker2: Running provisioner: shell...
+    broker2: Running: C:/Users/PC/AppData/Local/Temp/vagrant-shell20260803-5760-71gc38.sh
+    broker2: >>> [broker2] Installing...
+    broker2: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    broker2: Selecting previously unselected package alsa-topology-conf.
+(Reading database ... 64341 files and directories currently installed.)
+    broker2: Preparing to unpack .../00-alsa-topology-conf_1.2.5.1-2_all.deb ...
+    broker2: Unpacking alsa-topology-conf (1.2.5.1-2) ...
+    broker2: Selecting previously unselected package libasound2-data.
+    broker2: Preparing to unpack .../01-libasound2-data_1.2.6.1-1ubuntu1.2_all.deb ...
+    broker2: Unpacking libasound2-data (1.2.6.1-1ubuntu1.2) ...
+    broker2: Selecting previously unselected package libasound2:amd64.
+    broker2: Preparing to unpack .../02-libasound2_1.2.6.1-1ubuntu1.2_amd64.deb ...
+    broker2: Unpacking libasound2:amd64 (1.2.6.1-1ubuntu1.2) ...
+    broker2: Selecting previously unselected package alsa-ucm-conf.
+    broker2: Preparing to unpack .../03-alsa-ucm-conf_1.2.6.3-1ubuntu1.12_all.deb ...
+    broker2: Unpacking alsa-ucm-conf (1.2.6.3-1ubuntu1.12) ...
+    broker2: Selecting previously unselected package java-common.
+    broker2: Preparing to unpack .../04-java-common_0.72build2_all.deb ...
+    broker2: Unpacking java-common (0.72build2) ...
+    broker2: Selecting previously unselected package libavahi-common-data:amd64.
+    broker2: Preparing to unpack .../05-libavahi-common-data_0.8-5ubuntu5.5_amd64.deb ...
+    broker2: Unpacking libavahi-common-data:amd64 (0.8-5ubuntu5.5) ...
+    broker2: Selecting previously unselected package libavahi-common3:amd64.
+    broker2: Preparing to unpack .../06-libavahi-common3_0.8-5ubuntu5.5_amd64.deb ...
+    broker2: Unpacking libavahi-common3:amd64 (0.8-5ubuntu5.5) ...
+    broker2: Selecting previously unselected package libavahi-client3:amd64.
+    broker2: Preparing to unpack .../07-libavahi-client3_0.8-5ubuntu5.5_amd64.deb ...
+    broker2: Unpacking libavahi-client3:amd64 (0.8-5ubuntu5.5) ...
+    broker2: Selecting previously unselected package libcups2:amd64.
+    broker2: Preparing to unpack .../08-libcups2_2.4.1op1-1ubuntu4.21_amd64.deb ...
+    broker2: Unpacking libcups2:amd64 (2.4.1op1-1ubuntu4.21) ...
+    broker2: Selecting previously unselected package fonts-dejavu-core.
+    broker2: Preparing to unpack .../09-fonts-dejavu-core_2.37-2build1_all.deb ...
+    broker2: Unpacking fonts-dejavu-core (2.37-2build1) ...
+    broker2: Selecting previously unselected package fontconfig-config.
+    broker2: Preparing to unpack .../10-fontconfig-config_2.13.1-4.2ubuntu5_all.deb ...
+    broker2: Unpacking fontconfig-config (2.13.1-4.2ubuntu5) ...
+    broker2: Selecting previously unselected package libfontconfig1:amd64.
+    broker2: Preparing to unpack .../11-libfontconfig1_2.13.1-4.2ubuntu5_amd64.deb ...
+    broker2: Unpacking libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+    broker2: Selecting previously unselected package liblcms2-2:amd64.
+    broker2: Preparing to unpack .../12-liblcms2-2_2.12~rc1-2ubuntu0.1_amd64.deb ...
+    broker2: Unpacking liblcms2-2:amd64 (2.12~rc1-2ubuntu0.1) ...
+    broker2: Selecting previously unselected package libjpeg-turbo8:amd64.
+    broker2: Preparing to unpack .../13-libjpeg-turbo8_2.1.2-0ubuntu1_amd64.deb ...
+    broker2: Unpacking libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+    broker2: Selecting previously unselected package libjpeg8:amd64.
+    broker2: Preparing to unpack .../14-libjpeg8_8c-2ubuntu10_amd64.deb ...
+    broker2: Unpacking libjpeg8:amd64 (8c-2ubuntu10) ...
+    broker2: Selecting previously unselected package libgraphite2-3:amd64.
+    broker2: Preparing to unpack .../15-libgraphite2-3_1.3.14-1ubuntu0.1_amd64.deb ...
+    broker2: Unpacking libgraphite2-3:amd64 (1.3.14-1ubuntu0.1) ...
+    broker2: Selecting previously unselected package libharfbuzz0b:amd64.
+    broker2: Preparing to unpack .../16-libharfbuzz0b_2.7.4-1ubuntu3.2_amd64.deb ...
+    broker2: Unpacking libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+    broker2: Selecting previously unselected package libpcsclite1:amd64.
+    broker2: Preparing to unpack .../17-libpcsclite1_1.9.5-3ubuntu1_amd64.deb ...
+    broker2: Unpacking libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+    broker2: Selecting previously unselected package openjdk-17-jre-headless:amd64.
+    broker2: Preparing to unpack .../18-openjdk-17-jre-headless_17.0.19+10-1~22.04.2_amd64.deb ...
+    broker2: Unpacking openjdk-17-jre-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker2: Selecting previously unselected package ca-certificates-java.
+    broker2: Preparing to unpack .../19-ca-certificates-java_20190909ubuntu1.3_all.deb ...
+    broker2: Unpacking ca-certificates-java (20190909ubuntu1.3) ...
+    broker2: Selecting previously unselected package openjdk-17-jdk-headless:amd64.
+    broker2: Preparing to unpack .../20-openjdk-17-jdk-headless_17.0.19+10-1~22.04.2_amd64.deb ...
+    broker2: Unpacking openjdk-17-jdk-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker2: Setting up libgraphite2-3:amd64 (1.3.14-1ubuntu0.1) ...
+    broker2: Setting up liblcms2-2:amd64 (2.12~rc1-2ubuntu0.1) ...
+    broker2: Setting up java-common (0.72build2) ...
+    broker2: Setting up libasound2-data (1.2.6.1-1ubuntu1.2) ...
+    broker2: Setting up libavahi-common-data:amd64 (0.8-5ubuntu5.5) ...
+    broker2: Setting up fonts-dejavu-core (2.37-2build1) ...
+    broker2: Setting up libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+    broker2: Setting up libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+    broker2: Setting up alsa-topology-conf (1.2.5.1-2) ...
+    broker2: Setting up libasound2:amd64 (1.2.6.1-1ubuntu1.2) ...
+    broker2: Setting up libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+    broker2: Setting up libjpeg8:amd64 (8c-2ubuntu10) ...
+    broker2: Setting up alsa-ucm-conf (1.2.6.3-1ubuntu1.12) ...
+    broker2: Setting up fontconfig-config (2.13.1-4.2ubuntu5) ...
+    broker2: Setting up libavahi-common3:amd64 (0.8-5ubuntu5.5) ...
+    broker2: Setting up libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+    broker2: Setting up libavahi-client3:amd64 (0.8-5ubuntu5.5) ...
+    broker2: Setting up libcups2:amd64 (2.4.1op1-1ubuntu4.21) ...
+    broker2: Setting up openjdk-17-jre-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/java to provide /usr/bin/java (java) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jpackage to provide /usr/bin/jpackage (jpackage) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/keytool to provide /usr/bin/keytool (keytool) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/rmiregistry to provide /usr/bin/rmiregistry (rmiregistry) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/lib/jexec to provide /usr/bin/jexec (jexec) in auto mode
+    broker2: Setting up ca-certificates-java (20190909ubuntu1.3) ...
+    broker2: head: cannot open '/etc/ssl/certs/java/cacerts' for reading: No such file or directory
+    broker2: Adding debian:DigiCert_TLS_RSA4096_Root_G5.pem
+    broker2: Adding debian:IdenTrust_Commercial_Root_CA_1.pem
+    broker2: Adding debian:SSL.com_TLS_ECC_Root_CA_2022.pem
+    broker2: Adding debian:emSign_Root_CA_-_C1.pem
+    broker2: Adding debian:Trustwave_Global_ECC_P384_Certification_Authority.pem
+    broker2: Adding debian:DigiCert_Assured_ID_Root_G2.pem
+    broker2: Adding debian:Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+    broker2: Adding debian:GlobalSign_Root_R46.pem
+    broker2: Adding debian:Microsoft_ECC_Root_Certificate_Authority_2017.pem
+    broker2: Adding debian:Certigna.pem
+    broker2: Adding debian:Certum_Trusted_Network_CA.pem
+    broker2: Adding debian:Go_Daddy_Root_Certificate_Authority_-_G2.pem
+    broker2: Adding debian:TunTrust_Root_CA.pem
+    broker2: Adding debian:BJCA_Global_Root_CA2.pem
+    broker2: Adding debian:Izenpe.com.pem
+    broker2: Adding debian:Starfield_Class_2_CA.pem
+    broker2: Adding debian:AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+    broker2: Adding debian:XRamp_Global_CA_Root.pem
+    broker2: Adding debian:Entrust_Root_Certification_Authority_-_EC1.pem
+    broker2: Adding debian:D-TRUST_BR_Root_CA_1_2020.pem
+    broker2: Adding debian:Security_Communication_RootCA2.pem
+    broker2: Adding debian:HiPKI_Root_CA_-_G1.pem
+    broker2: Adding debian:GDCA_TrustAUTH_R5_ROOT.pem
+    broker2: Adding debian:Atos_TrustedRoot_2011.pem
+    broker2: Adding debian:Security_Communication_Root_CA.pem
+    broker2: Adding debian:SSL.com_Root_Certification_Authority_ECC.pem
+    broker2: Adding debian:DigiCert_High_Assurance_EV_Root_CA.pem
+    broker2: Adding debian:certSIGN_Root_CA_G2.pem
+    broker2: Adding debian:TWCA_Global_Root_CA.pem
+    broker2: Adding debian:SSL.com_EV_Root_Certification_Authority_ECC.pem
+    broker2: Adding debian:Telia_Root_CA_v2.pem
+    broker2: Adding debian:CommScope_Public_Trust_RSA_Root-01.pem
+    broker2: Adding debian:AC_RAIZ_FNMT-RCM.pem
+    broker2: Adding debian:e-Szigno_Root_CA_2017.pem
+    broker2: Adding debian:QuoVadis_Root_CA_3.pem
+    broker2: Adding debian:Starfield_Root_Certificate_Authority_-_G2.pem
+    broker2: Adding debian:emSign_ECC_Root_CA_-_G3.pem
+    broker2: Adding debian:OISTE_WISeKey_Global_Root_GC_CA.pem
+    broker2: Adding debian:Security_Communication_ECC_RootCA1.pem
+    broker2: Adding debian:TeliaSonera_Root_CA_v1.pem
+    broker2: Adding debian:DigiCert_Global_Root_G2.pem
+    broker2: Adding debian:QuoVadis_Root_CA_2_G3.pem
+    broker2: Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+    broker2: Adding debian:AffirmTrust_Premium.pem
+    broker2: Adding debian:SZAFIR_ROOT_CA2.pem
+    broker2: Adding debian:DigiCert_Assured_ID_Root_CA.pem
+    broker2: Adding debian:Microsoft_RSA_Root_Certificate_Authority_2017.pem
+    broker2: Adding debian:NAVER_Global_Root_Certification_Authority.pem
+    broker2: Adding debian:AffirmTrust_Commercial.pem
+    broker2: Adding debian:Amazon_Root_CA_4.pem
+    broker2: Adding debian:CFCA_EV_ROOT.pem
+    broker2: Adding debian:Go_Daddy_Class_2_CA.pem
+    broker2: Adding debian:Entrust_Root_Certification_Authority_-_G2.pem
+    broker2: Adding debian:Starfield_Services_Root_Certificate_Authority_-_G2.pem
+    broker2: Adding debian:COMODO_ECC_Certification_Authority.pem
+    broker2: Adding debian:Certainly_Root_E1.pem
+    broker2: Adding debian:certSIGN_ROOT_CA.pem
+    broker2: Adding debian:Secure_Global_CA.pem
+    broker2: Adding debian:GlobalSign_Root_E46.pem
+    broker2: Adding debian:GlobalSign_Root_CA_-_R6.pem
+    broker2: Adding debian:NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+    broker2: Adding debian:Amazon_Root_CA_2.pem
+    broker2: Adding debian:AffirmTrust_Premium_ECC.pem
+    broker2: Adding debian:Certum_Trusted_Root_CA.pem
+    broker2: Adding debian:UCA_Extended_Validation_Root.pem
+    broker2: Adding debian:GlobalSign_Root_CA_-_R3.pem
+    broker2: Adding debian:USERTrust_ECC_Certification_Authority.pem
+    broker2: Adding debian:Baltimore_CyberTrust_Root.pem
+    broker2: Adding debian:ISRG_Root_X1.pem
+    broker2: Adding debian:DigiCert_Trusted_Root_G4.pem
+    broker2: Adding debian:T-TeleSec_GlobalRoot_Class_2.pem
+    broker2: Adding debian:SwissSign_Gold_CA_-_G2.pem
+    broker2: Adding debian:ACCVRAIZ1.pem
+    broker2: Adding debian:emSign_ECC_Root_CA_-_C3.pem
+    broker2: Adding debian:emSign_Root_CA_-_G1.pem
+    broker2: Adding debian:Comodo_AAA_Services_root.pem
+    broker2: Adding debian:QuoVadis_Root_CA_1_G3.pem
+    broker2: Adding debian:QuoVadis_Root_CA_3_G3.pem
+    broker2: Adding debian:Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+    broker2: Adding debian:Sectigo_Public_Server_Authentication_Root_E46.pem
+    broker2: Adding debian:GlobalSign_ECC_Root_CA_-_R4.pem
+    broker2: Adding debian:CA_Disig_Root_R2.pem
+    broker2: Adding debian:Buypass_Class_3_Root_CA.pem
+    broker2: Adding debian:Trustwave_Global_Certification_Authority.pem
+    broker2: Adding debian:TrustAsia_Global_Root_CA_G3.pem
+    broker2: Adding debian:SwissSign_Silver_CA_-_G2.pem
+    broker2: Adding debian:Entrust_Root_Certification_Authority_-_G4.pem
+    broker2: Adding debian:Amazon_Root_CA_1.pem
+    broker2: Adding debian:SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+    broker2: Adding debian:Actalis_Authentication_Root_CA.pem
+    broker2: Adding debian:OISTE_WISeKey_Global_Root_GB_CA.pem
+    broker2: Adding debian:SecureTrust_CA.pem
+    broker2: Adding debian:CommScope_Public_Trust_ECC_Root-02.pem
+    broker2: Adding debian:vTrus_Root_CA.pem
+    broker2: Adding debian:UCA_Global_G2_Root.pem
+    broker2: Adding debian:CommScope_Public_Trust_RSA_Root-02.pem
+    broker2: Adding debian:GTS_Root_R3.pem
+    broker2: Adding debian:DigiCert_Global_Root_CA.pem
+    broker2: Adding debian:Entrust.net_Premium_2048_Secure_Server_CA.pem
+    broker2: Adding debian:BJCA_Global_Root_CA1.pem
+    broker2: Adding debian:DigiCert_Assured_ID_Root_G3.pem
+    broker2: Adding debian:Certum_Trusted_Network_CA_2.pem
+    broker2: Adding debian:Certainly_Root_R1.pem
+    broker2: Adding debian:Security_Communication_RootCA3.pem
+    broker2: Adding debian:SecureSign_RootCA11.pem
+    broker2: Adding debian:vTrus_ECC_Root_CA.pem
+    broker2: Adding debian:GTS_Root_R1.pem
+    broker2: Adding debian:Microsec_e-Szigno_Root_CA_2009.pem
+    broker2: Adding debian:Amazon_Root_CA_3.pem
+    broker2: Adding debian:CommScope_Public_Trust_ECC_Root-01.pem
+    broker2: Adding debian:Buypass_Class_2_Root_CA.pem
+    broker2: Adding debian:GLOBALTRUST_2020.pem
+    broker2: Adding debian:DigiCert_Global_Root_G3.pem
+    broker2: Adding debian:AffirmTrust_Networking.pem
+    broker2: Adding debian:Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+    broker2: Adding debian:TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+    broker2: Adding debian:Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+    broker2: Adding debian:ANF_Secure_Server_Root_CA.pem
+    broker2: Adding debian:T-TeleSec_GlobalRoot_Class_3.pem
+    broker2: Adding debian:D-TRUST_EV_Root_CA_1_2020.pem
+    broker2: Adding debian:Sectigo_Public_Server_Authentication_Root_R46.pem
+    broker2: Adding debian:GTS_Root_R4.pem
+    broker2: Adding debian:Certigna_Root_CA.pem
+    broker2: Adding debian:DigiCert_TLS_ECC_P384_Root_G5.pem
+    broker2: Adding debian:GlobalSign_Root_CA.pem
+    broker2: Adding debian:TrustAsia_Global_Root_CA_G4.pem
+    broker2: Adding debian:ePKI_Root_Certification_Authority.pem
+    broker2: Adding debian:GTS_Root_R2.pem
+    broker2: Adding debian:GlobalSign_ECC_Root_CA_-_R5.pem
+    broker2: Adding debian:Certum_EC-384_CA.pem
+    broker2: Adding debian:Hongkong_Post_Root_CA_3.pem
+    broker2: Adding debian:D-TRUST_Root_Class_3_CA_2_2009.pem
+    broker2: Adding debian:Trustwave_Global_ECC_P256_Certification_Authority.pem
+    broker2: Adding debian:USERTrust_RSA_Certification_Authority.pem
+    broker2: Adding debian:Entrust_Root_Certification_Authority.pem
+    broker2: Adding debian:SSL.com_TLS_RSA_Root_CA_2022.pem
+    broker2: Adding debian:SSL.com_Root_Certification_Authority_RSA.pem
+    broker2: Adding debian:HARICA_TLS_ECC_Root_CA_2021.pem
+    broker2: Adding debian:HARICA_TLS_RSA_Root_CA_2021.pem
+    broker2: Adding debian:TWCA_Root_Certification_Authority.pem
+    broker2: Adding debian:ISRG_Root_X2.pem
+    broker2: Adding debian:QuoVadis_Root_CA_2.pem
+    broker2: Adding debian:IdenTrust_Public_Sector_Root_CA_1.pem
+    broker2: Adding debian:COMODO_RSA_Certification_Authority.pem
+    broker2: Adding debian:COMODO_Certification_Authority.pem
+    broker2: Adding debian:D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+    broker2: done.
+    broker2: Setting up openjdk-17-jdk-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jar to provide /usr/bin/jar (jar) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jarsigner to provide /usr/bin/jarsigner (jarsigner) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javac to provide /usr/bin/javac (javac) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javadoc to provide /usr/bin/javadoc (javadoc) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javap to provide /usr/bin/javap (javap) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jcmd to provide /usr/bin/jcmd (jcmd) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdb to provide /usr/bin/jdb (jdb) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdeprscan to provide /usr/bin/jdeprscan (jdeprscan) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdeps to provide /usr/bin/jdeps (jdeps) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jfr to provide /usr/bin/jfr (jfr) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jimage to provide /usr/bin/jimage (jimage) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jinfo to provide /usr/bin/jinfo (jinfo) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jlink to provide /usr/bin/jlink (jlink) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jmap to provide /usr/bin/jmap (jmap) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jmod to provide /usr/bin/jmod (jmod) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jps to provide /usr/bin/jps (jps) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jrunscript to provide /usr/bin/jrunscript (jrunscript) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jshell to provide /usr/bin/jshell (jshell) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstack to provide /usr/bin/jstack (jstack) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstat to provide /usr/bin/jstat (jstat) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstatd to provide /usr/bin/jstatd (jstatd) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/serialver to provide /usr/bin/serialver (serialver) in auto mode
+    broker2: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jhsdb to provide /usr/bin/jhsdb (jhsdb) in auto mode
+    broker2: Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+    broker2: Processing triggers for man-db (2.10.2-1) ...
+    broker2: Processing triggers for ca-certificates (20240203~22.04.1) ...
+    broker2: Updating certificates in /etc/ssl/certs...
+    broker2: 0 added, 0 removed; done.
+    broker2: Running hooks in /etc/ca-certificates/update.d...
+    broker2:
+    broker2: done.
+    broker2: done.
+    broker2:
+    broker2: Running kernel seems to be up-to-date.
+    broker2:
+    broker2: No services need to be restarted.
+    broker2:
+    broker2: No containers need to be restarted.
+    broker2:
+    broker2: No user sessions are running outdated binaries.
+    broker2:
+    broker2: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    broker2: >>> Binary extracting
+    broker2: Created symlink /etc/systemd/system/multi-user.target.wants/activemq.service → /etc/systemd/system/activemq.service.
+    broker2: >>> [broker2] Activemq is working!
+    broker2:     Web Konsol : http://192.168.56.12:8161/admin  (admin/admin)
+    broker2:     OpenWire   : tcp://192.168.56.12:8616
+==> broker3: Importing base box 'ubuntu/jammy64'...
+==> broker3: Matching MAC address for NAT networking...
+==> broker3: Setting the name of the VM: broker3
+==> broker3: Fixed port collision for 22 => 2222. Now on port 2201.
+==> broker3: Clearing any previously set network interfaces...
+==> broker3: Preparing network interfaces based on configuration...
+    broker3: Adapter 1: nat
+    broker3: Adapter 2: hostonly
+==> broker3: Forwarding ports...
+    broker3: 22 (guest) => 2201 (host) (adapter 1)
+==> broker3: Running 'pre-boot' VM customizations...
+==> broker3: Booting VM...
+==> broker3: Waiting for machine to boot. This may take a few minutes...
+    broker3: SSH address: 127.0.0.1:2201
+    broker3: SSH username: vagrant
+    broker3: SSH auth method: private key
+    broker3: Warning: Connection reset. Retrying...
+    broker3: Warning: Connection aborted. Retrying...
+    broker3:
+    broker3: Vagrant insecure key detected. Vagrant will automatically replace
+    broker3: this with a newly generated keypair for better security.
+    broker3:
+    broker3: Inserting generated public key within guest...
+    broker3: Removing insecure key from the guest if it's present...
+    broker3: Key inserted! Disconnecting and reconnecting using new SSH key...
+==> broker3: Machine booted and ready!
+==> broker3: Checking for guest additions in VM...
+    broker3: The guest additions on this VM do not match the installed version of
+    broker3: VirtualBox! In most cases this is fine, but in rare cases it can
+    broker3: prevent things such as shared folders from working properly. If you see
+    broker3: shared folder errors, please make sure the guest additions within the
+    broker3: virtual machine match the version of VirtualBox you have installed on
+    broker3: your host and reload your VM.
+    broker3:
+    broker3: Guest Additions Version: 6.0.0 r127566
+    broker3: VirtualBox Version: 7.2
+==> broker3: Setting hostname...
+==> broker3: Configuring and enabling network interfaces...
+==> broker3: Mounting shared folders...
+    broker3: C:/Ake/workspace/activemq/activemq-cluster => /vagrant
+==> broker3: Running provisioner: file...
+    broker3: files/apache-activemq-5.16.7-bin.tar.gz => /tmp/apache-activemq-5.16.7-bin.tar.gz
+==> broker3: Running provisioner: file...
+    broker3: files/activemq-node1.xml => /tmp/activemq-node1.xml
+==> broker3: Running provisioner: file...
+    broker3: files/activemq-node2.xml => /tmp/activemq-node2.xml
+==> broker3: Running provisioner: file...
+    broker3: files/activemq-node3.xml => /tmp/activemq-node3.xml
+==> broker3: Running provisioner: file...
+    broker3: files/jetty.xml => /tmp/jetty.xml
+==> broker3: Running provisioner: shell...
+    broker3: Running: C:/Users/PC/AppData/Local/Temp/vagrant-shell20260803-5760-pqaxnr.sh
+    broker3: >>> [broker3] Installing...
+    broker3: dpkg-preconfigure: unable to re-open stdin: No such file or directory
+    broker3: Selecting previously unselected package alsa-topology-conf.
+(Reading database ... 64341 files and directories currently installed.)
+    broker3: Preparing to unpack .../00-alsa-topology-conf_1.2.5.1-2_all.deb ...
+    broker3: Unpacking alsa-topology-conf (1.2.5.1-2) ...
+    broker3: Selecting previously unselected package libasound2-data.
+    broker3: Preparing to unpack .../01-libasound2-data_1.2.6.1-1ubuntu1.2_all.deb ...
+    broker3: Unpacking libasound2-data (1.2.6.1-1ubuntu1.2) ...
+    broker3: Selecting previously unselected package libasound2:amd64.
+    broker3: Preparing to unpack .../02-libasound2_1.2.6.1-1ubuntu1.2_amd64.deb ...
+    broker3: Unpacking libasound2:amd64 (1.2.6.1-1ubuntu1.2) ...
+    broker3: Selecting previously unselected package alsa-ucm-conf.
+    broker3: Preparing to unpack .../03-alsa-ucm-conf_1.2.6.3-1ubuntu1.12_all.deb ...
+    broker3: Unpacking alsa-ucm-conf (1.2.6.3-1ubuntu1.12) ...
+    broker3: Selecting previously unselected package java-common.
+    broker3: Preparing to unpack .../04-java-common_0.72build2_all.deb ...
+    broker3: Unpacking java-common (0.72build2) ...
+    broker3: Selecting previously unselected package libavahi-common-data:amd64.
+    broker3: Preparing to unpack .../05-libavahi-common-data_0.8-5ubuntu5.5_amd64.deb ...
+    broker3: Unpacking libavahi-common-data:amd64 (0.8-5ubuntu5.5) ...
+    broker3: Selecting previously unselected package libavahi-common3:amd64.
+    broker3: Preparing to unpack .../06-libavahi-common3_0.8-5ubuntu5.5_amd64.deb ...
+    broker3: Unpacking libavahi-common3:amd64 (0.8-5ubuntu5.5) ...
+    broker3: Selecting previously unselected package libavahi-client3:amd64.
+    broker3: Preparing to unpack .../07-libavahi-client3_0.8-5ubuntu5.5_amd64.deb ...
+    broker3: Unpacking libavahi-client3:amd64 (0.8-5ubuntu5.5) ...
+    broker3: Selecting previously unselected package libcups2:amd64.
+    broker3: Preparing to unpack .../08-libcups2_2.4.1op1-1ubuntu4.21_amd64.deb ...
+    broker3: Unpacking libcups2:amd64 (2.4.1op1-1ubuntu4.21) ...
+    broker3: Selecting previously unselected package fonts-dejavu-core.
+    broker3: Preparing to unpack .../09-fonts-dejavu-core_2.37-2build1_all.deb ...
+    broker3: Unpacking fonts-dejavu-core (2.37-2build1) ...
+    broker3: Selecting previously unselected package fontconfig-config.
+    broker3: Preparing to unpack .../10-fontconfig-config_2.13.1-4.2ubuntu5_all.deb ...
+    broker3: Unpacking fontconfig-config (2.13.1-4.2ubuntu5) ...
+    broker3: Selecting previously unselected package libfontconfig1:amd64.
+    broker3: Preparing to unpack .../11-libfontconfig1_2.13.1-4.2ubuntu5_amd64.deb ...
+    broker3: Unpacking libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+    broker3: Selecting previously unselected package liblcms2-2:amd64.
+    broker3: Preparing to unpack .../12-liblcms2-2_2.12~rc1-2ubuntu0.1_amd64.deb ...
+    broker3: Unpacking liblcms2-2:amd64 (2.12~rc1-2ubuntu0.1) ...
+    broker3: Selecting previously unselected package libjpeg-turbo8:amd64.
+    broker3: Preparing to unpack .../13-libjpeg-turbo8_2.1.2-0ubuntu1_amd64.deb ...
+    broker3: Unpacking libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+    broker3: Selecting previously unselected package libjpeg8:amd64.
+    broker3: Preparing to unpack .../14-libjpeg8_8c-2ubuntu10_amd64.deb ...
+    broker3: Unpacking libjpeg8:amd64 (8c-2ubuntu10) ...
+    broker3: Selecting previously unselected package libgraphite2-3:amd64.
+    broker3: Preparing to unpack .../15-libgraphite2-3_1.3.14-1ubuntu0.1_amd64.deb ...
+    broker3: Unpacking libgraphite2-3:amd64 (1.3.14-1ubuntu0.1) ...
+    broker3: Selecting previously unselected package libharfbuzz0b:amd64.
+    broker3: Preparing to unpack .../16-libharfbuzz0b_2.7.4-1ubuntu3.2_amd64.deb ...
+    broker3: Unpacking libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+    broker3: Selecting previously unselected package libpcsclite1:amd64.
+    broker3: Preparing to unpack .../17-libpcsclite1_1.9.5-3ubuntu1_amd64.deb ...
+    broker3: Unpacking libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+    broker3: Selecting previously unselected package openjdk-17-jre-headless:amd64.
+    broker3: Preparing to unpack .../18-openjdk-17-jre-headless_17.0.19+10-1~22.04.2_amd64.deb ...
+    broker3: Unpacking openjdk-17-jre-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker3: Selecting previously unselected package ca-certificates-java.
+    broker3: Preparing to unpack .../19-ca-certificates-java_20190909ubuntu1.3_all.deb ...
+    broker3: Unpacking ca-certificates-java (20190909ubuntu1.3) ...
+    broker3: Selecting previously unselected package openjdk-17-jdk-headless:amd64.
+    broker3: Preparing to unpack .../20-openjdk-17-jdk-headless_17.0.19+10-1~22.04.2_amd64.deb ...
+    broker3: Unpacking openjdk-17-jdk-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker3: Setting up libgraphite2-3:amd64 (1.3.14-1ubuntu0.1) ...
+    broker3: Setting up liblcms2-2:amd64 (2.12~rc1-2ubuntu0.1) ...
+    broker3: Setting up java-common (0.72build2) ...
+    broker3: Setting up libasound2-data (1.2.6.1-1ubuntu1.2) ...
+    broker3: Setting up libavahi-common-data:amd64 (0.8-5ubuntu5.5) ...
+    broker3: Setting up fonts-dejavu-core (2.37-2build1) ...
+    broker3: Setting up libpcsclite1:amd64 (1.9.5-3ubuntu1) ...
+    broker3: Setting up libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+    broker3: Setting up alsa-topology-conf (1.2.5.1-2) ...
+    broker3: Setting up libasound2:amd64 (1.2.6.1-1ubuntu1.2) ...
+    broker3: Setting up libharfbuzz0b:amd64 (2.7.4-1ubuntu3.2) ...
+    broker3: Setting up libjpeg8:amd64 (8c-2ubuntu10) ...
+    broker3: Setting up alsa-ucm-conf (1.2.6.3-1ubuntu1.12) ...
+    broker3: Setting up fontconfig-config (2.13.1-4.2ubuntu5) ...
+    broker3: Setting up libavahi-common3:amd64 (0.8-5ubuntu5.5) ...
+    broker3: Setting up libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+    broker3: Setting up libavahi-client3:amd64 (0.8-5ubuntu5.5) ...
+    broker3: Setting up libcups2:amd64 (2.4.1op1-1ubuntu4.21) ...
+    broker3: Setting up openjdk-17-jre-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/java to provide /usr/bin/java (java) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jpackage to provide /usr/bin/jpackage (jpackage) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/keytool to provide /usr/bin/keytool (keytool) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/rmiregistry to provide /usr/bin/rmiregistry (rmiregistry) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/lib/jexec to provide /usr/bin/jexec (jexec) in auto mode
+    broker3: Setting up ca-certificates-java (20190909ubuntu1.3) ...
+    broker3: head: cannot open '/etc/ssl/certs/java/cacerts' for reading: No such file or directory
+    broker3: Adding debian:DigiCert_TLS_RSA4096_Root_G5.pem
+    broker3: Adding debian:IdenTrust_Commercial_Root_CA_1.pem
+    broker3: Adding debian:SSL.com_TLS_ECC_Root_CA_2022.pem
+    broker3: Adding debian:emSign_Root_CA_-_C1.pem
+    broker3: Adding debian:Trustwave_Global_ECC_P384_Certification_Authority.pem
+    broker3: Adding debian:DigiCert_Assured_ID_Root_G2.pem
+    broker3: Adding debian:Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+    broker3: Adding debian:GlobalSign_Root_R46.pem
+    broker3: Adding debian:Microsoft_ECC_Root_Certificate_Authority_2017.pem
+    broker3: Adding debian:Certigna.pem
+    broker3: Adding debian:Certum_Trusted_Network_CA.pem
+    broker3: Adding debian:Go_Daddy_Root_Certificate_Authority_-_G2.pem
+    broker3: Adding debian:TunTrust_Root_CA.pem
+    broker3: Adding debian:BJCA_Global_Root_CA2.pem
+    broker3: Adding debian:Izenpe.com.pem
+    broker3: Adding debian:Starfield_Class_2_CA.pem
+    broker3: Adding debian:AC_RAIZ_FNMT-RCM_SERVIDORES_SEGUROS.pem
+    broker3: Adding debian:XRamp_Global_CA_Root.pem
+    broker3: Adding debian:Entrust_Root_Certification_Authority_-_EC1.pem
+    broker3: Adding debian:D-TRUST_BR_Root_CA_1_2020.pem
+    broker3: Adding debian:Security_Communication_RootCA2.pem
+    broker3: Adding debian:HiPKI_Root_CA_-_G1.pem
+    broker3: Adding debian:GDCA_TrustAUTH_R5_ROOT.pem
+    broker3: Adding debian:Atos_TrustedRoot_2011.pem
+    broker3: Adding debian:Security_Communication_Root_CA.pem
+    broker3: Adding debian:SSL.com_Root_Certification_Authority_ECC.pem
+    broker3: Adding debian:DigiCert_High_Assurance_EV_Root_CA.pem
+    broker3: Adding debian:certSIGN_Root_CA_G2.pem
+    broker3: Adding debian:TWCA_Global_Root_CA.pem
+    broker3: Adding debian:SSL.com_EV_Root_Certification_Authority_ECC.pem
+    broker3: Adding debian:Telia_Root_CA_v2.pem
+    broker3: Adding debian:CommScope_Public_Trust_RSA_Root-01.pem
+    broker3: Adding debian:AC_RAIZ_FNMT-RCM.pem
+    broker3: Adding debian:e-Szigno_Root_CA_2017.pem
+    broker3: Adding debian:QuoVadis_Root_CA_3.pem
+    broker3: Adding debian:Starfield_Root_Certificate_Authority_-_G2.pem
+    broker3: Adding debian:emSign_ECC_Root_CA_-_G3.pem
+    broker3: Adding debian:OISTE_WISeKey_Global_Root_GC_CA.pem
+    broker3: Adding debian:Security_Communication_ECC_RootCA1.pem
+    broker3: Adding debian:TeliaSonera_Root_CA_v1.pem
+    broker3: Adding debian:DigiCert_Global_Root_G2.pem
+    broker3: Adding debian:QuoVadis_Root_CA_2_G3.pem
+    broker3: Adding debian:Autoridad_de_Certificacion_Firmaprofesional_CIF_A62634068.pem
+    broker3: Adding debian:AffirmTrust_Premium.pem
+    broker3: Adding debian:SZAFIR_ROOT_CA2.pem
+    broker3: Adding debian:DigiCert_Assured_ID_Root_CA.pem
+    broker3: Adding debian:Microsoft_RSA_Root_Certificate_Authority_2017.pem
+    broker3: Adding debian:NAVER_Global_Root_Certification_Authority.pem
+    broker3: Adding debian:AffirmTrust_Commercial.pem
+    broker3: Adding debian:Amazon_Root_CA_4.pem
+    broker3: Adding debian:CFCA_EV_ROOT.pem
+    broker3: Adding debian:Go_Daddy_Class_2_CA.pem
+    broker3: Adding debian:Entrust_Root_Certification_Authority_-_G2.pem
+    broker3: Adding debian:Starfield_Services_Root_Certificate_Authority_-_G2.pem
+    broker3: Adding debian:COMODO_ECC_Certification_Authority.pem
+    broker3: Adding debian:Certainly_Root_E1.pem
+    broker3: Adding debian:certSIGN_ROOT_CA.pem
+    broker3: Adding debian:Secure_Global_CA.pem
+    broker3: Adding debian:GlobalSign_Root_E46.pem
+    broker3: Adding debian:GlobalSign_Root_CA_-_R6.pem
+    broker3: Adding debian:NetLock_Arany_=Class_Gold=_Főtanúsítvány.pem
+    broker3: Adding debian:Amazon_Root_CA_2.pem
+    broker3: Adding debian:AffirmTrust_Premium_ECC.pem
+    broker3: Adding debian:Certum_Trusted_Root_CA.pem
+    broker3: Adding debian:UCA_Extended_Validation_Root.pem
+    broker3: Adding debian:GlobalSign_Root_CA_-_R3.pem
+    broker3: Adding debian:USERTrust_ECC_Certification_Authority.pem
+    broker3: Adding debian:Baltimore_CyberTrust_Root.pem
+    broker3: Adding debian:ISRG_Root_X1.pem
+    broker3: Adding debian:DigiCert_Trusted_Root_G4.pem
+    broker3: Adding debian:T-TeleSec_GlobalRoot_Class_2.pem
+    broker3: Adding debian:SwissSign_Gold_CA_-_G2.pem
+    broker3: Adding debian:ACCVRAIZ1.pem
+    broker3: Adding debian:emSign_ECC_Root_CA_-_C3.pem
+    broker3: Adding debian:emSign_Root_CA_-_G1.pem
+    broker3: Adding debian:Comodo_AAA_Services_root.pem
+    broker3: Adding debian:QuoVadis_Root_CA_1_G3.pem
+    broker3: Adding debian:QuoVadis_Root_CA_3_G3.pem
+    broker3: Adding debian:Atos_TrustedRoot_Root_CA_ECC_TLS_2021.pem
+    broker3: Adding debian:Sectigo_Public_Server_Authentication_Root_E46.pem
+    broker3: Adding debian:GlobalSign_ECC_Root_CA_-_R4.pem
+    broker3: Adding debian:CA_Disig_Root_R2.pem
+    broker3: Adding debian:Buypass_Class_3_Root_CA.pem
+    broker3: Adding debian:Trustwave_Global_Certification_Authority.pem
+    broker3: Adding debian:TrustAsia_Global_Root_CA_G3.pem
+    broker3: Adding debian:SwissSign_Silver_CA_-_G2.pem
+    broker3: Adding debian:Entrust_Root_Certification_Authority_-_G4.pem
+    broker3: Adding debian:Amazon_Root_CA_1.pem
+    broker3: Adding debian:SSL.com_EV_Root_Certification_Authority_RSA_R2.pem
+    broker3: Adding debian:Actalis_Authentication_Root_CA.pem
+    broker3: Adding debian:OISTE_WISeKey_Global_Root_GB_CA.pem
+    broker3: Adding debian:SecureTrust_CA.pem
+    broker3: Adding debian:CommScope_Public_Trust_ECC_Root-02.pem
+    broker3: Adding debian:vTrus_Root_CA.pem
+    broker3: Adding debian:UCA_Global_G2_Root.pem
+    broker3: Adding debian:CommScope_Public_Trust_RSA_Root-02.pem
+    broker3: Adding debian:GTS_Root_R3.pem
+    broker3: Adding debian:DigiCert_Global_Root_CA.pem
+    broker3: Adding debian:Entrust.net_Premium_2048_Secure_Server_CA.pem
+    broker3: Adding debian:BJCA_Global_Root_CA1.pem
+    broker3: Adding debian:DigiCert_Assured_ID_Root_G3.pem
+    broker3: Adding debian:Certum_Trusted_Network_CA_2.pem
+    broker3: Adding debian:Certainly_Root_R1.pem
+    broker3: Adding debian:Security_Communication_RootCA3.pem
+    broker3: Adding debian:SecureSign_RootCA11.pem
+    broker3: Adding debian:vTrus_ECC_Root_CA.pem
+    broker3: Adding debian:GTS_Root_R1.pem
+    broker3: Adding debian:Microsec_e-Szigno_Root_CA_2009.pem
+    broker3: Adding debian:Amazon_Root_CA_3.pem
+    broker3: Adding debian:CommScope_Public_Trust_ECC_Root-01.pem
+    broker3: Adding debian:Buypass_Class_2_Root_CA.pem
+    broker3: Adding debian:GLOBALTRUST_2020.pem
+    broker3: Adding debian:DigiCert_Global_Root_G3.pem
+    broker3: Adding debian:AffirmTrust_Networking.pem
+    broker3: Adding debian:Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+    broker3: Adding debian:TUBITAK_Kamu_SM_SSL_Kok_Sertifikasi_-_Surum_1.pem
+    broker3: Adding debian:Atos_TrustedRoot_Root_CA_RSA_TLS_2021.pem
+    broker3: Adding debian:ANF_Secure_Server_Root_CA.pem
+    broker3: Adding debian:T-TeleSec_GlobalRoot_Class_3.pem
+    broker3: Adding debian:D-TRUST_EV_Root_CA_1_2020.pem
+    broker3: Adding debian:Sectigo_Public_Server_Authentication_Root_R46.pem
+    broker3: Adding debian:GTS_Root_R4.pem
+    broker3: Adding debian:Certigna_Root_CA.pem
+    broker3: Adding debian:DigiCert_TLS_ECC_P384_Root_G5.pem
+    broker3: Adding debian:GlobalSign_Root_CA.pem
+    broker3: Adding debian:TrustAsia_Global_Root_CA_G4.pem
+    broker3: Adding debian:ePKI_Root_Certification_Authority.pem
+    broker3: Adding debian:GTS_Root_R2.pem
+    broker3: Adding debian:GlobalSign_ECC_Root_CA_-_R5.pem
+    broker3: Adding debian:Certum_EC-384_CA.pem
+    broker3: Adding debian:Hongkong_Post_Root_CA_3.pem
+    broker3: Adding debian:D-TRUST_Root_Class_3_CA_2_2009.pem
+    broker3: Adding debian:Trustwave_Global_ECC_P256_Certification_Authority.pem
+    broker3: Adding debian:USERTrust_RSA_Certification_Authority.pem
+    broker3: Adding debian:Entrust_Root_Certification_Authority.pem
+    broker3: Adding debian:SSL.com_TLS_RSA_Root_CA_2022.pem
+    broker3: Adding debian:SSL.com_Root_Certification_Authority_RSA.pem
+    broker3: Adding debian:HARICA_TLS_ECC_Root_CA_2021.pem
+    broker3: Adding debian:HARICA_TLS_RSA_Root_CA_2021.pem
+    broker3: Adding debian:TWCA_Root_Certification_Authority.pem
+    broker3: Adding debian:ISRG_Root_X2.pem
+    broker3: Adding debian:QuoVadis_Root_CA_2.pem
+    broker3: Adding debian:IdenTrust_Public_Sector_Root_CA_1.pem
+    broker3: Adding debian:COMODO_RSA_Certification_Authority.pem
+    broker3: Adding debian:COMODO_Certification_Authority.pem
+    broker3: Adding debian:D-TRUST_Root_Class_3_CA_2_EV_2009.pem
+    broker3: done.
+    broker3: Setting up openjdk-17-jdk-headless:amd64 (17.0.19+10-1~22.04.2) ...
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jar to provide /usr/bin/jar (jar) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jarsigner to provide /usr/bin/jarsigner (jarsigner) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javac to provide /usr/bin/javac (javac) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javadoc to provide /usr/bin/javadoc (javadoc) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/javap to provide /usr/bin/javap (javap) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jcmd to provide /usr/bin/jcmd (jcmd) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdb to provide /usr/bin/jdb (jdb) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdeprscan to provide /usr/bin/jdeprscan (jdeprscan) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jdeps to provide /usr/bin/jdeps (jdeps) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jfr to provide /usr/bin/jfr (jfr) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jimage to provide /usr/bin/jimage (jimage) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jinfo to provide /usr/bin/jinfo (jinfo) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jlink to provide /usr/bin/jlink (jlink) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jmap to provide /usr/bin/jmap (jmap) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jmod to provide /usr/bin/jmod (jmod) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jps to provide /usr/bin/jps (jps) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jrunscript to provide /usr/bin/jrunscript (jrunscript) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jshell to provide /usr/bin/jshell (jshell) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstack to provide /usr/bin/jstack (jstack) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstat to provide /usr/bin/jstat (jstat) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jstatd to provide /usr/bin/jstatd (jstatd) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/serialver to provide /usr/bin/serialver (serialver) in auto mode
+    broker3: update-alternatives: using /usr/lib/jvm/java-17-openjdk-amd64/bin/jhsdb to provide /usr/bin/jhsdb (jhsdb) in auto mode
+    broker3: Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+    broker3: Processing triggers for man-db (2.10.2-1) ...
+    broker3: Processing triggers for ca-certificates (20240203~22.04.1) ...
+    broker3: Updating certificates in /etc/ssl/certs...
+    broker3: 0 added, 0 removed; done.
+    broker3: Running hooks in /etc/ca-certificates/update.d...
+    broker3:
+    broker3: done.
+    broker3: done.
+    broker3:
+    broker3: Running kernel seems to be up-to-date.
+    broker3:
+    broker3: No services need to be restarted.
+    broker3:
+    broker3: No containers need to be restarted.
+    broker3:
+    broker3: No user sessions are running outdated binaries.
+    broker3:
+    broker3: No VM guests are running outdated hypervisor (qemu) binaries on this host.
+    broker3: >>> Binary extracting
+    broker3: Created symlink /etc/systemd/system/multi-user.target.wants/activemq.service → /etc/systemd/system/activemq.service.
+    broker3: >>> [broker3] Activemq is working!
+    broker3:     Web Konsol : http://192.168.56.13:8161/admin  (admin/admin)
+    broker3:     OpenWire   : tcp://192.168.56.13:8616
