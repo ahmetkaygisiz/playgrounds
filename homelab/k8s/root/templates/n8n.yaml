@@ -12,7 +12,7 @@ spec:
     # Bu repodaki yerel chart
     repoURL: {{ .Values.repoURL | quote }}
     targetRevision: {{ .Values.targetRevision | quote }}
-    path: k8s/workloads/n8n
+    path: {{ with .Values.repoPath }}{{ . }}/{{ end }}k8s/workloads/n8n
     helm:
       valuesObject:
         domain: {{ .Values.domain | quote }}

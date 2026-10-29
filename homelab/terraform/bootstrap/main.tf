@@ -118,6 +118,7 @@ resource "helm_release" "root_app" {
 
   values = [yamlencode({
     repoURL        = var.git_repo_url
+    repoPath       = trim(var.git_repo_path, "/")
     targetRevision = var.git_revision
     domain         = var.lab_domain
     timezone       = var.timezone

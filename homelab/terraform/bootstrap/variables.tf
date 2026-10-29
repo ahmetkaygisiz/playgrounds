@@ -9,6 +9,12 @@ variable "git_repo_url" {
   type        = string
 }
 
+variable "git_repo_path" {
+  description = "homelab klasörünün repo içindeki yolu (repo kökündeyse boş), örn. \"homelab\""
+  type        = string
+  default     = ""
+}
+
 variable "git_revision" {
   description = "ArgoCD'nin izleyeceği branch"
   type        = string

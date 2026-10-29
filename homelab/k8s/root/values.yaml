@@ -1,5 +1,6 @@
 # Bu değerler Terraform (bootstrap) tarafından root Application'a geçirilir.
 repoURL: ""
+repoPath: ""        # homelab repo'da alt klasördeyse, örn. "homelab"
 targetRevision: main
 domain: lab.home.arpa
 timezone: Europe/Istanbul

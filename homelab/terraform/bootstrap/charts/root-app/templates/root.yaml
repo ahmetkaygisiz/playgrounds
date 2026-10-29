@@ -8,10 +8,11 @@ spec:
   source:
     repoURL: {{ required "repoURL gerekli" .Values.repoURL | quote }}
     targetRevision: {{ .Values.targetRevision | quote }}
-    path: k8s/root
+    path: {{ with .Values.repoPath }}{{ . }}/{{ end }}k8s/root
     helm:
       valuesObject:
         repoURL: {{ .Values.repoURL | quote }}
+        repoPath: {{ .Values.repoPath | quote }}
         targetRevision: {{ .Values.targetRevision | quote }}
         domain: {{ .Values.domain | quote }}
         timezone: {{ .Values.timezone | quote }}
