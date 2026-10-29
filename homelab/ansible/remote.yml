@@ -1,0 +1,27 @@
+---
+# Ev dışından erişim (README.vscode.md):
+#   - vscode_tunnel grubu: VS Code Remote Tunnel + kubectl + lab-ui + kısayollar
+#   - pi_connect grubu:    Raspberry Pi Connect (yedek terminal)
+# make site'tan sonra çalıştırın:  make remote
+
+- name: Uzaktan çalışma makinesi
+  hosts: vscode_tunnel
+  roles:
+    - workstation
+    - vscode_tunnel
+
+- name: Çalışma makinesinin SSH anahtarını diğer Pi'lere ekle
+  hosts: k3s_cluster
+  gather_facts: false
+  tasks:
+    - name: authorized_keys
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user }}"
+        key: "{{ hostvars[item]['workstation_ssh_pubkey'] }}"
+      loop: "{{ groups['vscode_tunnel'] }}"
+      when: hostvars[item]['workstation_ssh_pubkey'] is defined
+
+- name: Yedek erişim (Raspberry Pi Connect)
+  hosts: pi_connect
+  roles:
+    - pi_connect

@@ -1,0 +1,125 @@
+---
+# Uzaktan çalışma makinesi (VS Code Tunnel ile bağlanılan Pi): kubectl, kubeconfig,
+# diğer Pi'lere SSH ve lab arayüzlerini açan lab-ui script'i.
+- name: Araç paketleri
+  ansible.builtin.apt:
+    name: [git, openssh-client, awscli, bash-completion]
+    state: present
+
+- name: kubectl sürümünü belirle
+  when: not kubectl_version
+  ansible.builtin.uri:
+    url: https://dl.k8s.io/release/stable.txt
+    return_content: true
+  register: kubectl_stable
+
+- name: Hedef kubectl sürümü
+  ansible.builtin.set_fact:
+    workstation_kubectl_version: "{{ kubectl_version or kubectl_stable.content | trim }}"
+
+- name: Kurulu kubectl sürümü
+  ansible.builtin.command: kubectl version --client -o json
+  register: kubectl_installed
+  changed_when: false
+  failed_when: false
+
+- name: kubectl indir ({{ workstation_kubectl_version }})
+  ansible.builtin.get_url:
+    url: "https://dl.k8s.io/release/{{ workstation_kubectl_version }}/bin/linux/{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}/kubectl"
+    dest: /usr/local/bin/kubectl
+    mode: "0755"
+    force: true
+  when: >-
+    kubectl_installed.rc != 0 or
+    (kubectl_installed.stdout | from_json).clientVersion.gitVersion != workstation_kubectl_version
+
+- name: Yerel kubeconfig mevcut mu (make site üretir)
+  ansible.builtin.stat:
+    path: "{{ kubeconfig_local_path }}"
+  register: workstation_local_kubeconfig
+  delegate_to: localhost
+  become: false
+
+- name: Kubeconfig yoksa dur
+  ansible.builtin.assert:
+    that: workstation_local_kubeconfig.stat.exists
+    fail_msg: "{{ kubeconfig_local_path }} bulunamadı. Önce 'make site' çalıştırın."
+
+- name: ~/.kube dizini
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.kube"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0700"
+
+# Yerel kubeconfig zaten sunucu IP'siyle (k3s_api_host) yazılmış durumda
+- name: Kubeconfig'i kopyala
+  ansible.builtin.copy:
+    src: "{{ kubeconfig_local_path }}"
+    dest: "/home/{{ ansible_user }}/.kube/config"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+
+- name: SSH anahtarı (diğer Pi'lere bağlanmak için)
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    generate_ssh_key: true
+    ssh_key_type: ed25519
+    ssh_key_file: .ssh/id_ed25519
+    ssh_key_comment: "{{ ansible_user }}@{{ inventory_hostname }}"
+  register: workstation_ssh_key
+
+# remote.yml bu anahtarı diğer Pi'lerin authorized_keys'ine ekler
+- name: Açık anahtarı paylaş
+  ansible.builtin.set_fact:
+    workstation_ssh_pubkey: "{{ workstation_ssh_key.ssh_public_key }}"
+
+- name: SSH config (ssh pilabs01 ...)
+  ansible.builtin.blockinfile:
+    path: "/home/{{ ansible_user }}/.ssh/config"
+    create: true
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+    marker: "# {mark} HOMELAB"
+    block: |
+      {% for h in groups['k3s_cluster'] %}
+      Host {{ h }}
+        HostName {{ hostvars[h]['static_ip'] }}
+        User {{ ansible_user }}
+        StrictHostKeyChecking accept-new
+      {% endfor %}
+
+- name: Repoyu klonla (varsa dokunma)
+  ansible.builtin.git:
+    repo: "{{ workstation_repo }}"
+    dest: "{{ workstation_repo_dir }}"
+    update: false
+  become_user: "{{ ansible_user }}"
+
+- name: lab-ui script'i
+  ansible.builtin.copy:
+    src: lab-ui
+    dest: /usr/local/bin/lab-ui
+    mode: "0755"
+
+- name: Kısayol dizini
+  ansible.builtin.file:
+    path: /usr/local/share/homelab
+    state: directory
+    mode: "0755"
+
+- name: Kısayollar (k, kgp, pf-grafana, pw-argocd ...)
+  ansible.builtin.template:
+    src: aliases.sh.j2
+    dest: /usr/local/share/homelab/aliases.sh
+    mode: "0644"
+
+- name: Kısayolları shell'e yükle
+  ansible.builtin.lineinfile:
+    path: "/home/{{ ansible_user }}/.bashrc"
+    line: "[ -f /usr/local/share/homelab/aliases.sh ] && . /usr/local/share/homelab/aliases.sh"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"

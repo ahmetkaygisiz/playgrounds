@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Lab arayüzlerini kubectl port-forward ile bu makinenin localhost'una açar.
+# VS Code Tunnel bu portları "Ports" sekmesinde gösterir; oradan tarayıcıda açılır.
+#
+#   lab-ui                 # hepsi
+#   lab-ui grafana argocd  # sadece seçilenler
+#   lab-ui -l              # listele
+# Durdurmak için Ctrl+C.
+set -euo pipefail
+
+# ad -> "namespace servis yerel_port:servis_portu"
+declare -A UI=(
+  [grafana]="monitoring kps-grafana 3000:80"
+  [argocd]="argocd argocd-server 8080:80"
+  [prometheus]="monitoring kps-kube-prometheus-stack-prometheus 9090:9090"
+  [alertmanager]="monitoring kps-kube-prometheus-stack-alertmanager 9093:9093"
+  [n8n]="n8n n8n 5678:80"
+)
+ORDER=(grafana argocd prometheus alertmanager n8n)
+
+if [[ "${1:-}" == "-l" ]]; then
+  for name in "${ORDER[@]}"; do
+    read -r ns svc ports <<<"${UI[$name]}"
+    printf '  %-13s http://localhost:%s  (%s/%s)\n' "$name" "${ports%%:*}" "$ns" "$svc"
+  done
+  exit 0
+fi
+
+selected=("$@")
+[[ ${#selected[@]} -eq 0 ]] && selected=("${ORDER[@]}")
+
+pids=()
+trap 'kill "${pids[@]}" 2>/dev/null || true' EXIT INT TERM
+
+for name in "${selected[@]}"; do
+  if [[ -z "${UI[$name]:-}" ]]; then
+    echo "Bilinmeyen: $name (lab-ui -l ile listeleyin)" >&2
+    continue
+  fi
+  read -r ns svc ports <<<"${UI[$name]}"
+  if ! kubectl -n "$ns" get svc "$svc" >/dev/null 2>&1; then
+    echo "  $name: $ns/$svc servisi yok, atlandı" >&2
+    continue
+  fi
+  kubectl -n "$ns" port-forward --address 127.0.0.1 "svc/$svc" "$ports" >/dev/null &
+  pids+=($!)
+  printf '  %-13s http://localhost:%s\n' "$name" "${ports%%:*}"
+done
+
+[[ ${#pids[@]} -eq 0 ]] && exit 1
+echo "Açık. Durdurmak için Ctrl+C."
+wait

@@ -30,8 +30,9 @@ homelab/
 │   ├── inventory/hosts.yml   # IP'ler ve roller  <-- DÜZENLEYİN
 │   ├── inventory/group_vars/all.yml
 │   ├── site.yml              # tüm kurulum
+│   ├── remote.yml            # ev dışından erişim (README.vscode.md)
 │   ├── reset.yml             # k3s'i kaldırır
-│   └── roles/ common | k3s | docker | floci
+│   └── roles/ common | k3s | docker | floci | workstation | vscode_tunnel | pi_connect
 ├── terraform/
 │   ├── bootstrap/            # secret'lar + ArgoCD + root app
 │   └── floci/                # Floci üzerinde AWS kaynakları
@@ -121,8 +122,8 @@ veya router/AdGuard DNS'inde:
 192.168.50.250  argocd.pilabs.lan grafana.pilabs.lan prometheus.pilabs.lan n8n.pilabs.lan
 ```
 
-> `.local` yerine `home.arpa` kullanıyoruz: `.local` mDNS ile çakışır, `home.arpa` ev ağları
-> için ayrılmış resmi alan adıdır (RFC 8375).
+> `.local` mDNS ile çakışır, `.dev` gibi gerçek TLD'ler ise tarayıcıda HTTPS'e zorlanır (HSTS).
+> `.lan` ev ağında yaygın kullanılır ve HTTP ile sorunsuz açılır. Alan adı `lab_domain` değişkeninde.
 
 ## 5. Floci + Terraform ile AWS pratiği
 
@@ -148,6 +149,17 @@ Windows'ta Ollama'nın ağdan erişilebilir olması için `OLLAMA_HOST=0.0.0.0` 
 tanımlayıp Ollama'yı yeniden başlatın ve Windows Güvenlik Duvarı'nda 11434 portuna izin verin.
 n8n'de **Ollama** credential'ı oluştururken Base URL: `http://<PC_IP>:11434`.
 
+## 7. Ev dışından erişim (VS Code Tunnel)
+
+Lab'a evin dışından (şirket bilgisayarı dahil) sadece tarayıcıyla bağlanmak için:
+
+```bash
+make remote   # pilabs03: VS Code Tunnel, kubectl, lab-ui; pilabs01: Pi Connect (yedek)
+```
+
+GitHub girişi, bağlanma, `lab-ui` ve `pf-grafana` gibi kısayollar için:
+**[README.vscode.md](README.vscode.md)**
+
 ## HA'ya geçiş (SSD'ye geçtikten sonra)
 
 1. `group_vars/all.yml` → `k3s_ha: true`
@@ -169,7 +181,7 @@ kubectl -n argocd get applications -o custom-columns=APP:.metadata.name,REV:.sta
 
 | Belirti | Kontrol |
 |---|---|
-| Node `NotReady` | `ssh pi@IP 'sudo journalctl -u k3s -n 100'` (agent'ta `k3s-agent`) |
+| Node `NotReady` | `ssh padawan@IP 'sudo journalctl -u k3s -n 100'` (agent'ta `k3s-agent`) |
 | Pod `Pending` | `kubectl describe pod ...` — çoğunlukla nodeSelector/disk |
 | ArgoCD `OutOfSync` | `kubectl -n argocd describe application <ad>` |
 | Prometheus yavaş/çöküyor | SD kart sınırı: `storage.prometheusRetention`'ı düşürün veya SSD'ye geçin |

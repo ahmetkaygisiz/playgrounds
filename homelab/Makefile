@@ -6,7 +6,7 @@ export KUBECONFIG
 ANSIBLE_CONFIG := $(CURDIR)/ansible/ansible.cfg
 export ANSIBLE_CONFIG
 
-.PHONY: help deps ping sudo network site k3s floci bootstrap aws nodes apps reset
+.PHONY: help deps ping sudo network site remote k3s floci bootstrap aws nodes apps reset
 
 help: ## Komutları listele
 	@grep -E '^[a-z-]+:.*##' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  make %-10s %s\n", $$1, $$2}'
@@ -25,6 +25,9 @@ network: ## Pi'lere sabit IP ata (nmcli)
 
 site: ## Boş Pi'leri baştan sona kur (OS + k3s + Floci)
 	cd ansible && ansible-playbook site.yml
+
+remote: ## Ev dışından erişim: VS Code Tunnel + Pi Connect (README.vscode.md)
+	cd ansible && ansible-playbook remote.yml
 
 k3s: ## Sadece k3s adımları
 	cd ansible && ansible-playbook site.yml --tags k3s

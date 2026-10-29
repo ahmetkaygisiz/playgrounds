@@ -40,3 +40,9 @@ floci_image: floci/floci:latest
 floci_dir: /opt/floci
 floci_port: 4566
 floci_enable_docker_services: true   # Lambda/RDS/ElastiCache için Docker socket bağlanır
+
+# ---------- Uzaktan erişim (remote.yml, README.vscode.md) ----------
+vscode_tunnel_name: "{{ inventory_hostname }}"   # https://vscode.dev/tunnel/<ad>
+workstation_repo: https://github.com/ahmetkaygisiz/playgrounds.git
+workstation_repo_dir: "/home/{{ ansible_user }}/playgrounds"
+kubectl_version: ""            # boş = en güncel stable, örn. "v1.33.5"

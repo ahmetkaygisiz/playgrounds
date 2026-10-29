@@ -1,0 +1,94 @@
+---
+# VS Code Remote Tunnel: https://vscode.dev/tunnel/<vscode_tunnel_name>
+# GitHub girişi bir kez elle yapılır (README.vscode.md); sonra servis olarak çalışır.
+- name: Kullanıcı bilgisi
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ ansible_user }}"
+
+- name: systemd --user ortamı
+  ansible.builtin.set_fact:
+    vscode_user_env:
+      XDG_RUNTIME_DIR: "/run/user/{{ getent_passwd[ansible_user][1] }}"
+      DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ getent_passwd[ansible_user][1] }}/bus"
+
+# Kullanıcı giriş yapmamışken de user servisleri çalışsın
+- name: Linger aç
+  ansible.builtin.command: loginctl enable-linger {{ ansible_user }}
+  args:
+    creates: "/var/lib/systemd/linger/{{ ansible_user }}"
+
+- name: User systemd hazır olsun
+  ansible.builtin.wait_for:
+    path: "{{ vscode_user_env.DBUS_SESSION_BUS_ADDRESS | replace('unix:path=', '') }}"
+    timeout: 30
+
+- name: VS Code CLI kurulu mu
+  ansible.builtin.stat:
+    path: /usr/local/bin/code
+  register: vscode_cli
+
+- name: VS Code CLI indir
+  ansible.builtin.get_url:
+    url: "https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'x64' }}"
+    dest: /tmp/vscode_cli.tar.gz
+    mode: "0644"
+  when: not vscode_cli.stat.exists
+
+- name: VS Code CLI aç
+  ansible.builtin.unarchive:
+    src: /tmp/vscode_cli.tar.gz
+    dest: /usr/local/bin
+    remote_src: true
+    creates: /usr/local/bin/code
+  when: not vscode_cli.stat.exists
+
+- name: GitHub girişi var mı
+  ansible.builtin.command: code tunnel user show
+  become_user: "{{ ansible_user }}"
+  environment: "{{ vscode_user_env }}"
+  register: vscode_login
+  changed_when: false
+  failed_when: false
+
+- name: Giriş yapılmamış
+  when: >-
+    vscode_login.rc != 0 or
+    'not logged in' in (vscode_login.stdout ~ vscode_login.stderr) | lower
+  block:
+    - name: Giriş talimatı
+      ansible.builtin.debug:
+        msg:
+          - "{{ inventory_hostname }} üzerinde bir kez GitHub girişi gerekiyor:"
+          - "  ssh {{ ansible_user }}@{{ static_ip }}"
+          - "  code tunnel user login --provider github"
+          - "Sonra 'make remote' komutunu tekrar çalıştırın."
+
+    - name: Bu host için burada dur
+      ansible.builtin.meta: end_host
+
+- name: Tünel servisi kurulu mu
+  ansible.builtin.stat:
+    path: "/home/{{ ansible_user }}/.config/systemd/user/code-tunnel.service"
+  register: vscode_service
+
+- name: Tünel servisini kur
+  ansible.builtin.command: >-
+    code tunnel service install --accept-server-license-terms --name {{ vscode_tunnel_name }}
+  become_user: "{{ ansible_user }}"
+  environment: "{{ vscode_user_env }}"
+  when: not vscode_service.stat.exists
+  changed_when: true
+
+- name: Tünel servisi çalışsın
+  ansible.builtin.systemd_service:
+    name: code-tunnel
+    scope: user
+    state: started
+    enabled: true
+  become_user: "{{ ansible_user }}"
+  environment: "{{ vscode_user_env }}"
+
+- name: Bağlantı adresi
+  ansible.builtin.debug:
+    msg: "https://vscode.dev/tunnel/{{ vscode_tunnel_name }}"

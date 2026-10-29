@@ -1,0 +1,52 @@
+---
+# Raspberry Pi Connect (lite): connect.raspberrypi.com üzerinden tarayıcıda terminal.
+# VS Code Tunnel çalışmazsa yedek erişim yolu. Giriş bir kez elle yapılır.
+- name: Paket (rpi-connect-lite)
+  ansible.builtin.apt:
+    name: rpi-connect-lite
+    state: present
+
+- name: Kullanıcı bilgisi
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ ansible_user }}"
+
+- name: systemd --user ortamı
+  ansible.builtin.set_fact:
+    pi_connect_user_env:
+      XDG_RUNTIME_DIR: "/run/user/{{ getent_passwd[ansible_user][1] }}"
+      DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/{{ getent_passwd[ansible_user][1] }}/bus"
+
+- name: Linger aç
+  ansible.builtin.command: loginctl enable-linger {{ ansible_user }}
+  args:
+    creates: "/var/lib/systemd/linger/{{ ansible_user }}"
+
+- name: User systemd hazır olsun
+  ansible.builtin.wait_for:
+    path: "/run/user/{{ getent_passwd[ansible_user][1] }}/bus"
+    timeout: 30
+
+# "on" idempotent: zaten açıksa bir şey değişmez
+- name: Servisi aç
+  ansible.builtin.command: rpi-connect on
+  become_user: "{{ ansible_user }}"
+  environment: "{{ pi_connect_user_env }}"
+  changed_when: false
+
+- name: Durum
+  ansible.builtin.command: rpi-connect status
+  become_user: "{{ ansible_user }}"
+  environment: "{{ pi_connect_user_env }}"
+  register: pi_connect_status
+  changed_when: false
+  failed_when: false
+
+- name: Giriş talimatı
+  ansible.builtin.debug:
+    msg:
+      - "{{ inventory_hostname }} üzerinde bir kez Raspberry Pi ID girişi gerekiyor:"
+      - "  ssh {{ ansible_user }}@{{ static_ip }}"
+      - "  rpi-connect signin"
+      - "Sonra https://connect.raspberrypi.com adresinden bağlanın."
+  when: "'Signed in: yes' not in pi_connect_status.stdout"
