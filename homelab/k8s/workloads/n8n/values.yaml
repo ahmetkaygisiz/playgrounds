@@ -1,4 +1,4 @@
-domain: lab.home.arpa
+domain: pilabs.lan
 timezone: Europe/Istanbul
 nodeRole: apps
 storageClass: local-path

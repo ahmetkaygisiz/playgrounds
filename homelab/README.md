@@ -118,7 +118,7 @@ Traefik her node'un 80 portunda dinler. PC'nizde (Windows: `C:\Windows\System32\
 veya router/AdGuard DNS'inde:
 
 ```
-192.168.50.250  argocd.lab.home.arpa grafana.lab.home.arpa prometheus.lab.home.arpa n8n.lab.home.arpa
+192.168.50.250  argocd.pilabs.lan grafana.pilabs.lan prometheus.pilabs.lan n8n.pilabs.lan
 ```
 
 > `.local` yerine `home.arpa` kullanıyoruz: `.local` mDNS ile çakışır, `home.arpa` ev ağları

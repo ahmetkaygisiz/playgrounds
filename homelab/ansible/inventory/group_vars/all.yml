@@ -1,7 +1,7 @@
 ---
 # ---------- Genel ----------
 lab_timezone: Europe/Istanbul
-lab_domain: pilabs      # grafana.lab.home.arpa, n8n.lab.home.arpa ...
+lab_domain: pilabs.lan  # grafana.pilabs.lan, n8n.pilabs.lan ...
 apt_upgrade: true              # ilk kurulumda paketleri güncelle
 
 # ---------- Ağ (network.yml) ----------

@@ -1,5 +1,5 @@
 repoURL: ""
 repoPath: ""        # homelab repo'da alt klasördeyse, örn. "homelab"
 targetRevision: main
-domain: lab.home.arpa
+domain: pilabs.lan
 timezone: Europe/Istanbul

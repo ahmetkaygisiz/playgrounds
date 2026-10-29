@@ -37,7 +37,7 @@ variable "git_repo_username" {
 variable "lab_domain" {
   description = "Ingress alan adı (Ansible'daki lab_domain ile aynı)"
   type        = string
-  default     = "pilabs"
+  default     = "pilabs.lan"
 }
 
 variable "timezone" {
