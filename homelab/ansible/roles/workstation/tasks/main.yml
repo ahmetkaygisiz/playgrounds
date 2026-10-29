@@ -3,7 +3,7 @@
 # diğer Pi'lere SSH ve lab arayüzlerini açan lab-ui script'i.
 - name: Araç paketleri
   ansible.builtin.apt:
-    name: [git, openssh-client, awscli, bash-completion]
+    name: [git, openssh-client, awscli, bash-completion, unzip]
     state: present
 
 - name: kubectl sürümünü belirle
@@ -32,6 +32,34 @@
   when: >-
     kubectl_installed.rc != 0 or
     (kubectl_installed.stdout | from_json).clientVersion.gitVersion != workstation_kubectl_version
+
+- name: Terraform sürümünü belirle
+  when: not terraform_version
+  ansible.builtin.uri:
+    url: https://checkpoint-api.hashicorp.com/v1/check/terraform
+    return_content: true
+  register: terraform_latest
+
+- name: Hedef Terraform sürümü
+  ansible.builtin.set_fact:
+    workstation_terraform_version: "{{ terraform_version or terraform_latest.json.current_version }}"
+
+- name: Kurulu Terraform sürümü
+  ansible.builtin.command: terraform version -json
+  register: terraform_installed
+  changed_when: false
+  failed_when: false
+
+- name: Terraform kur ({{ workstation_terraform_version }})
+  ansible.builtin.unarchive:
+    src: "https://releases.hashicorp.com/terraform/{{ workstation_terraform_version }}/terraform_{{ workstation_terraform_version }}_linux_{{ 'arm64' if ansible_facts['architecture'] == 'aarch64' else 'amd64' }}.zip"
+    dest: /usr/local/bin
+    remote_src: true
+    include: [terraform]
+    mode: "0755"
+  when: >-
+    terraform_installed.rc != 0 or
+    (terraform_installed.stdout | from_json).terraform_version != workstation_terraform_version
 
 - name: Yerel kubeconfig mevcut mu (make site üretir)
   ansible.builtin.stat:
@@ -123,3 +151,33 @@
     line: "[ -f /usr/local/share/homelab/aliases.sh ] && . /usr/local/share/homelab/aliases.sh"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
+
+# Floci sahte kimlik bilgisi kabul eder; ayrı profilde tutulur, gerçek AWS profiline dokunmaz
+- name: ~/.aws dizini
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.aws"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0700"
+
+- name: Floci AWS profili (credentials)
+  community.general.ini_file:
+    path: "/home/{{ ansible_user }}/.aws/credentials"
+    section: floci
+    option: "{{ item.key }}"
+    value: "{{ item.value }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"
+  loop: "{{ {'aws_access_key_id': 'test', 'aws_secret_access_key': 'test'} | dict2items }}"
+
+- name: Floci AWS profili (config)
+  community.general.ini_file:
+    path: "/home/{{ ansible_user }}/.aws/config"
+    section: profile floci
+    option: region
+    value: "{{ floci_region }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: "0600"

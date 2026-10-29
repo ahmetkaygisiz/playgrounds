@@ -46,3 +46,5 @@ vscode_tunnel_name: "{{ inventory_hostname }}"   # https://vscode.dev/tunnel/<ad
 workstation_repo: https://github.com/ahmetkaygisiz/playgrounds.git
 workstation_repo_dir: "/home/{{ ansible_user }}/playgrounds"
 kubectl_version: ""            # boş = en güncel stable, örn. "v1.33.5"
+terraform_version: ""          # boş = en güncel, örn. "1.13.4"
+floci_region: eu-central-1     # terraform/floci ile aynı

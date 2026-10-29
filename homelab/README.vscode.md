@@ -35,7 +35,8 @@ pilabs03'e şunları kurar:
 |---|---|
 | VS Code CLI | `/usr/local/bin/code` |
 | `kubectl` + kubeconfig | `~/.kube/config` (sunucu: 192.168.50.250) |
-| `aws` CLI | Floci için |
+| `aws` CLI + `floci` profili | Floci için, sahte kimlik bilgileri hazır (`test` / `test`) |
+| Terraform | `terraform/floci` ve `terraform/bootstrap` için |
 | Repo | `~/playgrounds` (varsa dokunulmaz) |
 | SSH anahtarı | diğer Pi'lere eklenir: `ssh pilabs01` şifresiz çalışır |
 | `lab-ui` + kısayollar | aşağıda |
@@ -115,10 +116,40 @@ Terminalde hazır gelir (`/usr/local/share/homelab/aliases.sh`):
 | `pw-argocd` | ArgoCD `admin` şifresi |
 | `awsl` | Floci'ye yönlendirilmiş `aws` (ör. `awsl s3 ls`) |
 
-`aws` için bir kez `aws configure` çalıştırıp access/secret key olarak `test` / `test` girin.
-
 Yeni bir arayüz eklemek için: `ansible/roles/workstation/files/lab-ui` içindeki `UI` listesine
 satır ekleyin, kısayolunu `templates/aliases.sh.j2`'ye yazın, `make remote`.
+
+### Floci (AWS pratiği)
+
+Floci pilabs03'te Docker ile çalışır; tünelin terminali de pilabs03'te olduğu için doğrudan erişilir.
+`awsl` = `aws --profile floci --endpoint-url http://192.168.50.252:4566`.
+
+```bash
+# Terraform ile kaynakları oluştur (S3, SNS→SQS, DynamoDB)
+cd ~/playgrounds/homelab/terraform/floci
+terraform init && terraform apply
+
+# AWS CLI
+awsl s3 ls
+awsl sns publish --topic-arn arn:aws:sns:eu-central-1:000000000000:homelab-events --message "merhaba"
+awsl sqs receive-message --queue-url http://192.168.50.252:4566/000000000000/homelab-events
+awsl dynamodb list-tables
+
+# Floci ayakta mı
+curl -s http://192.168.50.252:4566/_localstack/health | head
+ssh pilabs03 'docker ps --filter name=floci'   # veya doğrudan: docker ps (pilabs03'tesiniz)
+```
+
+Python (boto3) veya başka bir SDK kullanırken aynı ayarlar: `AWS_PROFILE=floci` ve
+`endpoint_url="http://192.168.50.252:4566"`.
+
+**Kendi bilgisayarınızdaki araçlarla** (masaüstü VS Code + Remote - Tunnels eklentisi): Ports sekmesinde
+`4566`'yı yönlendirin; Floci bilgisayarınızda `http://localhost:4566` olur ve yerel `aws`/Terraform
+oraya bağlanabilir. vscode.dev'de (tarayıcı) bu çalışmaz: yönlendirilen adres GitHub girişi ister,
+CLI araçları bunu geçemez. Orada her şeyi tünelin terminalinden çalıştırın.
+
+> Terraform state dosyası (`terraform.tfstate`) pilabs03'teki klonda kalır ve `.gitignore`'dadır.
+> Aynı kaynakları hem PC'den hem pilabs03'ten yönetmeyin; state'ler birbirini görmez.
 
 ### Diğer Pi'ler
 

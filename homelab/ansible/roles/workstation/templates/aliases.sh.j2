@@ -27,5 +27,5 @@ alias pw-grafana="kubectl -n monitoring get secret grafana-admin -o jsonpath='{.
 
 {% if groups['floci'] | default([]) | length > 0 %}
 # Floci (AWS emülatörü, k3s dışında)
-alias awsl='aws --endpoint-url http://{{ hostvars[groups['floci'][0]]['static_ip'] }}:{{ floci_port }}'
+alias awsl='aws --profile floci --endpoint-url http://{{ hostvars[groups['floci'][0]]['static_ip'] }}:{{ floci_port }}'
 {% endif %}
