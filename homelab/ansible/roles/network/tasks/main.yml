@@ -1,0 +1,72 @@
+---
+# NetworkManager bağlantısına sabit IP verir. Kullandığınız örnekteki
+#   nmcli con mod preconfigured ipv4.addresses 192.168.50.250/24
+#   nmcli con mod preconfigured ipv4.gateway 192.168.50.1
+# komutlarının otomatik, idempotent hali.
+
+- name: NetworkManager kurulu olmalı
+  ansible.builtin.command: nmcli -t general status
+  changed_when: false
+
+- name: Bağlantı adını bul (varsayılan rotanın arayüzü)
+  ansible.builtin.command: >-
+    nmcli -g GENERAL.CONNECTION device show {{ ansible_facts['default_ipv4'].interface }}
+  register: network_conn_lookup
+  changed_when: false
+  when: not lab_nm_connection
+
+- name: Bağlantı adını belirle
+  ansible.builtin.set_fact:
+    network_conn: "{{ lab_nm_connection or network_conn_lookup.stdout | trim }}"
+    network_address: "{{ static_ip }}/{{ lab_net_prefix }}"
+
+- name: Mevcut IPv4 ayarlarını oku
+  ansible.builtin.command: >-
+    nmcli -g ipv4.method,ipv4.addresses,ipv4.gateway,ipv4.dns connection show "{{ network_conn }}"
+  register: network_current
+  changed_when: false
+
+- name: Değişiklik gerekli mi?
+  ansible.builtin.set_fact:
+    network_needs_change: >-
+      {{ network_current.stdout_lines != ['manual', network_address, lab_gateway, lab_dns | join(',')] }}
+
+- name: Sabit IP ayarla -> {{ network_address }}
+  ansible.builtin.command: >-
+    nmcli connection modify "{{ network_conn }}"
+    ipv4.method manual
+    ipv4.addresses {{ network_address }}
+    ipv4.gateway {{ lab_gateway }}
+    ipv4.dns "{{ lab_dns | join(',') }}"
+    ipv4.ignore-auto-dns yes
+    connection.autoconnect yes
+  when: network_needs_change | bool
+  changed_when: true
+
+# IP değişince SSH bağlantısı kopacağı için arka planda uygulanır
+- name: Bağlantıyı yeni ayarlarla yeniden başlat
+  ansible.builtin.shell: >-
+    sleep 2 && nmcli connection up "{{ network_conn }}"
+  async: 60
+  poll: 0
+  when: network_needs_change | bool
+  changed_when: true
+
+- name: Bundan sonra sabit IP üzerinden bağlan
+  ansible.builtin.set_fact:
+    ansible_host: "{{ static_ip }}"
+
+- name: Pi'nin yeni IP'de erişilebilir olmasını bekle
+  ansible.builtin.wait_for_connection:
+    delay: 10
+    timeout: 180
+  when: network_needs_change | bool
+
+- name: Yeni IP'yi doğrula
+  ansible.builtin.setup:
+    gather_subset: [network]
+
+- name: IP doğru mu?
+  ansible.builtin.assert:
+    that: ansible_facts['default_ipv4'].address == static_ip
+    fail_msg: "Beklenen {{ static_ip }}, görünen {{ ansible_facts['default_ipv4'].address }}"

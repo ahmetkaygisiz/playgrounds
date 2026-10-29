@@ -1,0 +1,46 @@
+---
+- name: Floci dizini
+  ansible.builtin.file:
+    path: "{{ floci_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Compose dosyasını yaz
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ floci_dir }}/docker-compose.yml"
+    mode: "0644"
+  register: floci_compose
+
+- name: Floci image'ının ARM64 desteğini kontrol et
+  ansible.builtin.command: docker manifest inspect {{ floci_image }}
+  register: floci_manifest
+  changed_when: false
+  failed_when: false
+
+- name: Mimari uyarısı
+  ansible.builtin.fail:
+    msg: >-
+      {{ floci_image }} için arm64 image bulunamadı. Floci'yi PC'de (WSL2 + Docker)
+      çalıştırın ve inventory'deki floci grubunu boşaltın.
+  when:
+    - ansible_facts['architecture'] == 'aarch64'
+    - floci_manifest.rc == 0
+    - "'arm64' not in floci_manifest.stdout"
+
+- name: Floci'yi başlat
+  ansible.builtin.command: docker compose up -d --pull always
+  args:
+    chdir: "{{ floci_dir }}"
+  register: floci_up
+  changed_when: "'Started' in floci_up.stderr or 'Recreated' in floci_up.stderr or 'Created' in floci_up.stderr"
+
+- name: Floci hazır olana kadar bekle
+  ansible.builtin.uri:
+    url: "http://127.0.0.1:{{ floci_port }}/_localstack/health"
+    status_code: [200]
+  register: floci_health
+  until: floci_health.status == 200
+  retries: 20
+  delay: 3
+  failed_when: false

@@ -1,0 +1,20 @@
+---
+# ansible_user için şifresiz sudo tanımlar. Bir kez çalıştırmak yeterli;
+# sudo şifresini bu ilk seferde sorar:  make sudo
+# (elle: ANSIBLE_BECOME_ASK_PASS=True ansible-playbook sudo.yml)
+#
+# network.yml'den önce çalıştırılır; bu yüzden o da önce dhcp_ip'ye bağlanır.
+- name: Şifresiz sudo
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_host: "{{ dhcp_ip | default(static_ip) }}"
+  tasks:
+    - name: sudoers.d kuralını yaz
+      ansible.builtin.copy:
+        dest: "/etc/sudoers.d/010_{{ ansible_user }}-nopasswd"
+        content: "{{ ansible_user }} ALL=(ALL) NOPASSWD:ALL\n"
+        owner: root
+        group: root
+        mode: "0440"
+        validate: visudo -cf %s

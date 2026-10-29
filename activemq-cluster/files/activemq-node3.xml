@@ -56,6 +56,21 @@
 							replayDelay="500"/>
 					</networkBridgeFilterFactory>
 				</policyEntry>
+
+
+				<policyEntry queue="M4M_PACKAGE_CHANGE_PRODUCT_ORDER_QUEUE">
+					<deadLetterStrategy>
+						<sharedDeadLetterStrategy
+							processExpired="true"
+							processNonPersistent="true">
+							<deadLetterQueue>
+								<queue physicalName="M4M_PACKAGE_CHANGE_PRODUCT_ORDER_DLQ"/>
+							</deadLetterQueue>
+						</sharedDeadLetterStrategy>
+					</deadLetterStrategy>
+				</policyEntry>
+
+				<policyEntry queue="M4M_PACKAGE_CHANGE_PRODUCT_ORDER_DLQ" expireMessagesPeriod="0"/>
                 </policyEntries>
             </policyMap>
         </destinationPolicy>

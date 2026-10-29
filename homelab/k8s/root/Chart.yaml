@@ -1,0 +1,5 @@
+apiVersion: v2
+name: homelab-root
+description: App-of-apps. Her şablon bir ArgoCD Application üretir.
+type: application
+version: 0.1.0

@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: n8n-data
+spec:
+  storageClassName: {{ .Values.storageClass }}
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: {{ .Values.n8n.storage }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n8n
+  labels: { app.kubernetes.io/name: n8n }
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate   # RWO volume tek pod'a bağlanabilir
+  selector:
+    matchLabels: { app.kubernetes.io/name: n8n }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: n8n }
+    spec:
+      nodeSelector: { homelab/role: {{ .Values.nodeRole | quote }} }
+      securityContext:
+        fsGroup: 1000   # n8n imajı "node" (uid 1000) kullanıcısıyla çalışır
+      initContainers:
+        - name: wait-for-postgres
+          image: {{ .Values.postgres.image }}
+          command: ["sh", "-c", "until pg_isready -h postgres -p 5432; do echo bekleniyor; sleep 3; done"]
+      containers:
+        - name: n8n
+          image: {{ .Values.n8n.image }}
+          ports:
+            - containerPort: 5678
+              name: http
+          env:
+            - name: DB_TYPE
+              value: postgresdb
+            - name: DB_POSTGRESDB_HOST
+              value: postgres
+            - name: DB_POSTGRESDB_PORT
+              value: "5432"
+            - name: DB_POSTGRESDB_DATABASE
+              value: {{ .Values.postgres.database | quote }}
+            - name: DB_POSTGRESDB_USER
+              value: {{ .Values.postgres.user | quote }}
+            - name: DB_POSTGRESDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingSecret }}
+                  key: postgres-password
+            - name: N8N_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingSecret }}
+                  key: encryption-key
+            - name: N8N_HOST
+              value: "n8n.{{ .Values.domain }}"
+            - name: N8N_PROTOCOL
+              value: http
+            - name: WEBHOOK_URL
+              value: "http://n8n.{{ .Values.domain }}/"
+            - name: N8N_PROXY_HOPS
+              value: "1"
+            # TLS olmadan (http) giriş yapabilmek için; HTTPS'e geçince kaldırın
+            - name: N8N_SECURE_COOKIE
+              value: "false"
+            - name: GENERIC_TIMEZONE
+              value: {{ .Values.timezone | quote }}
+            - name: TZ
+              value: {{ .Values.timezone | quote }}
+            - name: N8N_DIAGNOSTICS_ENABLED
+              value: "false"
+            - name: N8N_METRICS
+              value: "true"   # /metrics -> Prometheus
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 90
+            periodSeconds: 30
+          resources: {{- toYaml .Values.n8n.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /home/node/.n8n
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: n8n-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: n8n
+  labels: { app.kubernetes.io/name: n8n }
+spec:
+  selector: { app.kubernetes.io/name: n8n }
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: n8n
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: "n8n.{{ .Values.domain }}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: n8n
+                port:
+                  name: http
+---
+# kube-prometheus-stack kuruluysa n8n metriklerini toplar
+{{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: n8n
+spec:
+  selector:
+    matchLabels: { app.kubernetes.io/name: n8n }
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 60s
+{{- end }}

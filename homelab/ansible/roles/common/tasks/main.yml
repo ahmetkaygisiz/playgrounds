@@ -1,0 +1,74 @@
+---
+- name: Paket listesini güncelle (ve isteğe bağlı yükselt)
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: "{{ 'dist' if apt_upgrade else 'no' }}"
+    cache_valid_time: 3600
+
+- name: Temel paketleri kur
+  ansible.builtin.apt:
+    name:
+      - curl
+      - ca-certificates
+      - gnupg
+      - jq
+      - htop
+      - iptables
+      - open-iscsi      # ileride Longhorn için
+      - nfs-common
+      - python3-debian  # deb822_repository modülü için (docker rolü)
+    state: present
+
+- name: Hostname ayarla
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Tüm lab node'larını /etc/hosts'a ekle
+  ansible.builtin.blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} HOMELAB NODES"
+    block: |
+      {% for h in groups['all'] | unique %}
+      {{ hostvars[h]['static_ip'] }} {{ h }}
+      {% endfor %}
+
+- name: Saat dilimini ayarla
+  community.general.timezone:
+    name: "{{ lab_timezone }}"
+
+- name: Boot cmdline dosyasını bul
+  ansible.builtin.stat:
+    path: /boot/firmware/cmdline.txt
+  register: cmdline_fw
+
+- name: Cmdline yolunu belirle
+  ansible.builtin.set_fact:
+    rpi_cmdline: "{{ '/boot/firmware/cmdline.txt' if cmdline_fw.stat.exists else '/boot/cmdline.txt' }}"
+
+- name: Memory cgroup'u etkinleştir (k3s için gerekli)
+  ansible.builtin.replace:
+    path: "{{ rpi_cmdline }}"
+    regexp: '^((?!.*\bcgroup_enable=memory\b).*\S)\s*$'
+    replace: '\1 cgroup_memory=1 cgroup_enable=memory'
+  notify: Reboot
+
+- name: Kernel ayarları (inotify limitleri log toplayıcılar için)
+  ansible.posix.sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_file: /etc/sysctl.d/90-homelab.conf
+    reload: true
+  loop: "{{ sysctl_settings | dict2items }}"
+  vars:
+    sysctl_settings:
+      net.ipv4.ip_forward: 1
+      fs.inotify.max_user_instances: 512
+      fs.inotify.max_user_watches: 524288
+      vm.swappiness: 0
+
+- name: SD kart yazmalarını azalt
+  ansible.builtin.import_tasks: sd_card.yml   # import: --tags common içerdeki task'lara da geçsin
+  when: reduce_sd_writes | bool
+
+- name: Gerekirse şimdi yeniden başlat
+  ansible.builtin.meta: flush_handlers

@@ -1,0 +1,7 @@
+---
+- name: Restart k3s
+  ansible.builtin.systemd_service:
+    name: "{{ k3s_service }}"
+    state: restarted
+  # İlk kurulumda servis henüz yoksa hata vermesin
+  failed_when: false

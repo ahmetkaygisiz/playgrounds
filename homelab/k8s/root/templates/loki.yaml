@@ -1,0 +1,66 @@
+{{- if .Values.apps.loki }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: loki
+    targetRevision: {{ .Values.chartVersions.loki | quote }}
+    helm:
+      releaseName: loki
+      valuesObject:
+        # Tek pod, dosya sistemi depolama: Pi için en hafif mod
+        deploymentMode: SingleBinary
+        loki:
+          auth_enabled: false
+          commonConfig:
+            replication_factor: 1
+          storage:
+            type: filesystem
+          schemaConfig:
+            configs:
+              - from: "2024-04-01"
+                store: tsdb
+                object_store: filesystem
+                schema: v13
+                index:
+                  prefix: loki_index_
+                  period: 24h
+          limits_config:
+            retention_period: {{ .Values.storage.lokiRetention }}
+          compactor:
+            retention_enabled: true
+            delete_request_store: filesystem
+        singleBinary:
+          replicas: 1
+          nodeSelector: { homelab/role: {{ .Values.nodes.monitoring }} }
+          persistence:
+            enabled: true
+            storageClass: {{ .Values.storage.storageClass }}
+            size: {{ .Values.storage.loki }}
+        # Ölçeklenebilir mod bileşenlerini kapat
+        backend: { replicas: 0 }
+        read: { replicas: 0 }
+        write: { replicas: 0 }
+        gateway: { enabled: false }
+        chunksCache: { enabled: false }
+        resultsCache: { enabled: false }
+        lokiCanary: { enabled: false }
+        test: { enabled: false }
+        minio: { enabled: false }
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}

@@ -1,0 +1,27 @@
+---
+# DİKKAT: k3s'i ve tüm cluster verisini siler. Floci verisi korunur.
+#   ansible-playbook reset.yml -e confirm=yes
+- name: Kaldır (k3s)
+  hosts: k3s_cluster
+  gather_facts: false
+  tasks:
+    - name: Onay iste
+      ansible.builtin.assert:
+        that: confirm | default('no') == 'yes'
+        fail_msg: "Silmek için -e confirm=yes ekleyin."
+      run_once: true
+
+    - name: Agent'ı kaldır
+      ansible.builtin.command: /usr/local/bin/k3s-agent-uninstall.sh
+      args:
+        removes: /usr/local/bin/k3s-agent-uninstall.sh
+
+    - name: Server'ı kaldır
+      ansible.builtin.command: /usr/local/bin/k3s-uninstall.sh
+      args:
+        removes: /usr/local/bin/k3s-uninstall.sh
+
+    - name: Config'i sil
+      ansible.builtin.file:
+        path: /etc/rancher/k3s
+        state: absent

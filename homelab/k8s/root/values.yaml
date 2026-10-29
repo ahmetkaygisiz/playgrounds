@@ -1,0 +1,33 @@
+# Bu değerler Terraform (bootstrap) tarafından root Application'a geçirilir.
+repoURL: ""
+targetRevision: main
+domain: lab.home.arpa
+timezone: Europe/Istanbul
+
+# Uygulamaları tek tek açıp kapatın
+apps:
+  monitoring: true   # Prometheus + Grafana + Alertmanager
+  loki: true         # Log deposu
+  alloy: true        # Pod loglarını Loki'ye gönderir
+  n8n: true          # n8n + PostgreSQL
+
+# "*" = en güncel. İlk başarılı kurulumdan sonra `helm search repo` ile
+# görünen sürümleri buraya yazıp sabitleyin (tekrar üretilebilir lab için).
+chartVersions:
+  kubePrometheusStack: "*"
+  loki: "*"
+  alloy: "*"
+
+# Node yerleşimi (Ansible'daki node_role ile eşleşir)
+nodes:
+  monitoring: monitoring
+  apps: apps
+
+storage:
+  storageClass: local-path
+  prometheus: 10Gi
+  prometheusRetention: 5d
+  prometheusRetentionSize: 8GB
+  grafana: 2Gi
+  loki: 10Gi
+  lokiRetention: 168h

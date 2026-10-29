@@ -1,0 +1,7 @@
+# cp terraform.tfvars.example terraform.tfvars
+git_repo_url = "https://github.com/KULLANICI_ADINIZ/homelab.git"
+git_revision = "main"
+lab_domain   = "pilabs"
+
+# Repo private ise (yalnızca "Contents: Read-only" yetkili fine-grained token):
+# git_repo_token = "github_pat_..."

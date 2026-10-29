@@ -1,0 +1,21 @@
+---
+# Pi'lere sabit IP atar. site.yml bunu otomatik olarak ilk adımda çalıştırır;
+# tek başına da çalıştırılabilir:  ansible-playbook network.yml
+#
+# Pi henüz static_ip'de değilse inventory'de dhcp_ip tanımlayın; Ansible
+# önce o adrese bağlanır, IP'yi değiştirir ve yeni adresten devam eder.
+- name: Sabit IP ataması (NetworkManager)
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_host: "{{ dhcp_ip | default(static_ip) }}"
+  tasks:
+    - name: Bağlan ve bilgileri topla
+      ansible.builtin.setup:
+        gather_subset: [network]
+      when: static_network | bool
+
+    - name: Ağ rolünü uygula
+      ansible.builtin.include_role:
+        name: network
+      when: static_network | bool

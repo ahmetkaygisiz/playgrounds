@@ -1,0 +1,42 @@
+---
+# ---------- Genel ----------
+lab_timezone: Europe/Istanbul
+lab_domain: pilabs      # grafana.lab.home.arpa, n8n.lab.home.arpa ...
+apt_upgrade: true              # ilk kurulumda paketleri güncelle
+
+# ---------- Ağ (network.yml) ----------
+# Her Pi'ye inventory'deki static_ip atanır (NetworkManager / nmcli).
+static_network: true
+lab_net_prefix: 24
+lab_gateway: 192.168.50.1
+lab_dns: [192.168.50.1, 1.1.1.1]
+# Boş = varsayılan rotanın geçtiği bağlantı otomatik bulunur
+# (Ethernet: "Wired connection 1"/"netplan-eth0", Imager'da Wi-Fi: "preconfigured").
+lab_nm_connection: ""
+
+# SD kart yıpranmasını azaltır: journald RAM'de tutulur, swap kapatılır.
+reduce_sd_writes: true
+
+# ---------- k3s ----------
+k3s_channel: stable            # veya sabit sürüm için k3s_version kullanın
+k3s_version: ""                # örn. "v1.33.5+k3s1" (boşsa channel kullanılır)
+k3s_ha: true                  # true => gömülü etcd ile HA (SSD önerilir)
+
+# Token ilk çalıştırmada otomatik üretilir ve ansible/credentials/ altına yazılır
+# (.gitignore'da). Kendi değerinizi vermek isterseniz ansible-vault kullanın.
+k3s_token: "{{ lookup('ansible.builtin.password', playbook_dir + '/credentials/k3s_token', length=48, chars=['ascii_letters', 'digits']) }}"
+
+k3s_api_host: "{{ hostvars[groups['k3s_server'][0]]['static_ip'] }}"
+
+# k3s ile gelen bileşenler. Traefik (ingress) ve ServiceLB açık kalıyor.
+k3s_disable: []
+
+# Kubeconfig bu makineye (Ansible çalıştırdığınız PC/WSL) buraya kopyalanır
+kubeconfig_local_path: "{{ playbook_dir }}/../kubeconfig"
+
+# ---------- Docker + Floci ----------
+docker_users: ["{{ ansible_user }}"]
+floci_image: floci/floci:latest
+floci_dir: /opt/floci
+floci_port: 4566
+floci_enable_docker_services: true   # Lambda/RDS/ElastiCache için Docker socket bağlanır

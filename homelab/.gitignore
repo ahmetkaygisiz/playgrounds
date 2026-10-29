@@ -1,0 +1,10 @@
+# Erişim bilgileri ve durum dosyaları asla Git'e girmez
+kubeconfig
+ansible/credentials/
+ansible/collections/
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+*.retry
+.vault_pass

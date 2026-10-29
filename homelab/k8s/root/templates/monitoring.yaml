@@ -1,0 +1,90 @@
+{{- if .Values.apps.monitoring }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: {{ .Values.chartVersions.kubePrometheusStack | quote }}
+    helm:
+      releaseName: kps
+      valuesObject:
+        # k3s bu bileşenleri tek binary içinde çalıştırır; ayrı scrape edilemez
+        kubeControllerManager: { enabled: false }
+        kubeScheduler: { enabled: false }
+        kubeProxy: { enabled: false }
+        kubeEtcd: { enabled: false }
+
+        prometheusOperator:
+          nodeSelector: { homelab/role: {{ .Values.nodes.monitoring }} }
+        kube-state-metrics:
+          nodeSelector: { homelab/role: {{ .Values.nodes.monitoring }} }
+
+        prometheus:
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            hosts: [prometheus.{{ .Values.domain }}]
+          prometheusSpec:
+            nodeSelector: { homelab/role: {{ .Values.nodes.monitoring }} }
+            retention: {{ .Values.storage.prometheusRetention }}
+            retentionSize: {{ .Values.storage.prometheusRetentionSize }}
+            # Diğer namespace'lerdeki ServiceMonitor'ları da topla
+            serviceMonitorSelectorNilUsesHelmValues: false
+            podMonitorSelectorNilUsesHelmValues: false
+            ruleSelectorNilUsesHelmValues: false
+            resources:
+              requests: { cpu: 200m, memory: 1Gi }
+            storageSpec:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: {{ .Values.storage.storageClass }}
+                  accessModes: [ReadWriteOnce]
+                  resources:
+                    requests:
+                      storage: {{ .Values.storage.prometheus }}
+
+        alertmanager:
+          alertmanagerSpec:
+            nodeSelector: { homelab/role: {{ .Values.nodes.monitoring }} }
+
+        grafana:
+          nodeSelector: { homelab/role: {{ .Values.nodes.monitoring }} }
+          admin:
+            existingSecret: grafana-admin   # Terraform üretir
+            userKey: admin-user
+            passwordKey: admin-password
+          defaultDashboardsTimezone: browser
+          persistence:
+            enabled: true
+            storageClassName: {{ .Values.storage.storageClass }}
+            size: {{ .Values.storage.grafana }}
+          ingress:
+            enabled: true
+            ingressClassName: traefik
+            hosts: [grafana.{{ .Values.domain }}]
+          grafana.ini:
+            server:
+              root_url: http://grafana.{{ .Values.domain }}
+          additionalDataSources:
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki.monitoring.svc.cluster.local:3100
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true   # büyük CRD'ler için gerekli
+{{- end }}

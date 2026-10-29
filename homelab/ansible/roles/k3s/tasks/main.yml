@@ -1,0 +1,100 @@
+---
+- name: Mod doğrula (k3s_mode)
+  ansible.builtin.assert:
+    that: k3s_mode in ['server', 'agent']
+    fail_msg: "k3s_mode 'server' veya 'agent' olmalı"
+
+- name: Config dizini (k3s)
+  ansible.builtin.file:
+    path: /etc/rancher/k3s
+    state: directory
+    mode: "0755"
+
+- name: Config.yaml yaz (k3s)
+  ansible.builtin.template:
+    src: config.yaml.j2
+    dest: /etc/rancher/k3s/config.yaml
+    mode: "0600"
+  notify: Restart k3s
+
+- name: Kurulum betiğini indir (k3s)
+  ansible.builtin.get_url:
+    url: https://get.k3s.io
+    dest: /usr/local/bin/k3s-install.sh
+    mode: "0755"
+
+- name: Kur (k3s {{ k3s_mode }})
+  ansible.builtin.command: /usr/local/bin/k3s-install.sh
+  args:
+    creates: "{{ '/usr/local/bin/k3s-uninstall.sh' if k3s_mode == 'server' else '/usr/local/bin/k3s-agent-uninstall.sh' }}"
+  environment: "{{ k3s_install_env }}"
+  vars:
+    k3s_install_env: >-
+      {{ {'INSTALL_K3S_EXEC': k3s_mode}
+         | combine({'INSTALL_K3S_VERSION': k3s_version} if k3s_version
+                   else {'INSTALL_K3S_CHANNEL': k3s_channel}) }}
+
+- name: Servisi başlat ve etkinleştir (k3s)
+  ansible.builtin.systemd_service:
+    name: "{{ k3s_service }}"
+    state: started
+    enabled: true
+
+# Agent'ların Ready kontrolü site.yml'de, agent'lar kurulduktan sonra server'da yapılır
+# (agent'ta kubectl yok; delegate_to ile yapınca sudo/bağlantı ayarları karışıyordu).
+- name: Node'un Ready olmasını bekle
+  ansible.builtin.command: >-
+    k3s kubectl wait --for=condition=Ready node/{{ inventory_hostname }} --timeout=30s
+  register: k3s_node_ready
+  until: k3s_node_ready.rc == 0
+  retries: 20
+  delay: 15
+  changed_when: false
+  when: k3s_mode == 'server'
+
+# k3s.yaml root'a ait (0600); Pi'de sudo'suz kubectl için kullanıcıya kopyası verilir.
+- name: Kubectl'i {{ ansible_user }} için sudo'suz kullan
+  when: k3s_mode == 'server'
+  block:
+    - name: ~/.kube dizini
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/.kube"
+        state: directory
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: "0700"
+
+    - name: Kubeconfig'i kullanıcıya kopyala
+      ansible.builtin.copy:
+        src: /etc/rancher/k3s/k3s.yaml
+        dest: "/home/{{ ansible_user }}/.kube/config"
+        remote_src: true
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: "0600"
+
+    - name: KUBECONFIG'i shell'de tanımla
+      ansible.builtin.lineinfile:
+        path: "/home/{{ ansible_user }}/.bashrc"
+        line: "export KUBECONFIG=$HOME/.kube/config"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+
+- name: Kubeconfig'i yerel makineye al
+  when: inventory_hostname == groups['k3s_server'][0]
+  block:
+    - name: Kubeconfig oku
+      ansible.builtin.slurp:
+        src: /etc/rancher/k3s/k3s.yaml
+      register: k3s_kubeconfig_raw
+
+    - name: Kubeconfig yaz (sunucu IP'si ile)
+      ansible.builtin.copy:
+        content: >-
+          {{ k3s_kubeconfig_raw.content | b64decode
+             | replace('https://127.0.0.1:6443', 'https://' ~ k3s_api_host ~ ':6443')
+             | replace(': default', ': homelab') }}
+        dest: "{{ kubeconfig_local_path }}"
+        mode: "0600"
+      delegate_to: localhost
+      become: false

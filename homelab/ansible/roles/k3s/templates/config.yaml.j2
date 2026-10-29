@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+token: "{{ k3s_token }}"
+node-name: "{{ inventory_hostname }}"
+node-label:
+  - "homelab/role={{ node_role | default('worker') }}"
+{% if k3s_mode == 'server' %}
+write-kubeconfig-mode: "0600"
+tls-san:
+  - "{{ static_ip }}"
+  - "{{ inventory_hostname }}"
+{% if k3s_disable | length > 0 %}
+disable:
+{% for item in k3s_disable %}
+  - {{ item }}
+{% endfor %}
+{% endif %}
+{% if k3s_ha | bool %}
+{% if inventory_hostname == groups['k3s_server'][0] %}
+cluster-init: true
+etcd-snapshot-schedule-cron: "0 */12 * * *"
+etcd-snapshot-retention: 6
+{% else %}
+server: "https://{{ k3s_api_host }}:6443"
+{% endif %}
+{% endif %}
+{% else %}
+server: "https://{{ k3s_api_host }}:6443"
+{% endif %}

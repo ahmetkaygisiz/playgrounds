@@ -1,0 +1,52 @@
+---
+- name: Journald dizini mevcut olsun
+  ansible.builtin.file:
+    path: /etc/systemd/journald.conf.d
+    state: directory
+    mode: "0755"
+
+- name: Journald loglarını RAM'de tut
+  ansible.builtin.copy:
+    dest: /etc/systemd/journald.conf.d/10-volatile.conf
+    content: |
+      [Journal]
+      Storage=volatile
+      RuntimeMaxUse=64M
+    mode: "0644"
+  notify: Restart journald
+
+- name: Servis listesini topla
+  ansible.builtin.service_facts:
+
+- name: Swap dosyası servisini kapat (dphys-swapfile)
+  ansible.builtin.systemd_service:
+    name: dphys-swapfile
+    state: stopped
+    enabled: false
+  when: "'dphys-swapfile.service' in ansible_facts.services"
+
+# Yeni Raspberry Pi OS (rpi-swap / zram) ve fstab'daki swap'lar systemd .swap
+# unit'i olarak açılır; dphys-swapfile'ı kapatmak yetmez, reboot'ta geri gelir.
+- name: Aktif swap'ları bul
+  ansible.builtin.command: swapon --show=NAME --noheadings
+  register: active_swaps
+  changed_when: false
+
+- name: Swap unit adlarını çöz
+  ansible.builtin.command: systemd-escape -p --suffix=swap {{ item }}
+  loop: "{{ active_swaps.stdout_lines }}"
+  register: swap_units
+  changed_when: false
+
+- name: Swap unit'lerini maskele (reboot sonrası açılmasın)
+  ansible.builtin.systemd_service:
+    name: "{{ item.stdout }}"
+    masked: true
+  loop: "{{ swap_units.results }}"
+  loop_control:
+    label: "{{ item.stdout }}"
+
+- name: Swap'ı şimdi kapat
+  ansible.builtin.command: swapoff -a
+  when: active_swaps.stdout_lines | length > 0
+  changed_when: true

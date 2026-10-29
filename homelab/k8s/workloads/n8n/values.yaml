@@ -1,0 +1,25 @@
+domain: lab.home.arpa
+timezone: Europe/Istanbul
+nodeRole: apps
+storageClass: local-path
+
+# Secret Terraform tarafından oluşturulur (Git'e girmez)
+existingSecret: n8n-secrets
+
+n8n:
+  # Sürümü sabitlemek için örn. docker.n8n.io/n8nio/n8n:1.x.y
+  image: docker.n8n.io/n8nio/n8n:latest
+  storage: 2Gi
+  resources:
+    requests: { cpu: 100m, memory: 256Mi }
+    limits: { memory: 1Gi }
+
+postgres:
+  # 18+ farklı veri dizini kullanır; 17'de kalın, yükseltmeyi bilinçli yapın
+  image: postgres:17-alpine
+  storage: 5Gi
+  database: n8n
+  user: n8n
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+    limits: { memory: 512Mi }

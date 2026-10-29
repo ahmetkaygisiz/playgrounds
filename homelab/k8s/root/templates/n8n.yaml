@@ -1,0 +1,31 @@
+{{- if .Values.apps.n8n }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: n8n
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  project: default
+  source:
+    # Bu repodaki yerel chart
+    repoURL: {{ .Values.repoURL | quote }}
+    targetRevision: {{ .Values.targetRevision | quote }}
+    path: k8s/workloads/n8n
+    helm:
+      valuesObject:
+        domain: {{ .Values.domain | quote }}
+        timezone: {{ .Values.timezone | quote }}
+        nodeRole: {{ .Values.nodes.apps | quote }}
+        storageClass: {{ .Values.storage.storageClass | quote }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: n8n
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}
